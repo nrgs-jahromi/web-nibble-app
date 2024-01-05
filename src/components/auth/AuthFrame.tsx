@@ -1,10 +1,6 @@
-import { Box, Typography } from "@mui/material";
+import { Box } from "@mui/material";
 import image from "../../assets/Image.png";
-import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
-import Login from "./Login";
-import Signup from "./Signup";
 import Brand from "../brand/Brand";
-import theme from "../../theme";
 
 const AuthFrame = () => {
   return (

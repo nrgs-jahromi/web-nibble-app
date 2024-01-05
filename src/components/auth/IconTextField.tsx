@@ -14,8 +14,10 @@ const IconTextField: React.FC<IconTextFieldProps> = ({
   icon: Icon,
   ...rest
 }) => {
-  const { values, handleChange, handleBlur, touched, errors } =
-    useFormikContext<any>();
+  const { values, handleChange, handleBlur } = useFormikContext<any>();
+
+  // const { values, handleChange, handleBlur, touched, errors } =
+  // useFormikContext<any>();
 
   return (
     <Box className="flex flex-row items-end gap-3 w-full">
@@ -30,7 +32,7 @@ const IconTextField: React.FC<IconTextFieldProps> = ({
         <Icon />
       </Box>
       <Field name={name}>
-        {({ field, meta }: FieldProps) => (
+        {({ field }: FieldProps) => (
           <TextField
             {...field}
             {...rest}

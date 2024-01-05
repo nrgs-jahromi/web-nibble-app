@@ -42,11 +42,20 @@ const Login = () => {
       <Box className="w-full flex justify-center items-center h-full">
         <FormikProvider value={formik}>
           <Form className="h-full  justify-center md:w-1/2 w-8/12 flex flex-col">
-            <Typography variant="h5">Welcome!</Typography>
+            <Typography variant="h5">Create an annount</Typography>
             <Typography variant="caption">
-              Sign in to your account to continue
+              Plese create an account to continue using our service{" "}
             </Typography>
             <Box className="flex flex-col gap-8 my-10 w-full">
+              <IconTextField
+                fullWidth
+                id="name"
+                name="name"
+                label="FULL NAME"
+                type="email"
+                icon={CiMail}
+                sx={{ color: theme.palette.primary.main }}
+              />
               <IconTextField
                 fullWidth
                 id="email"
@@ -73,27 +82,6 @@ const Login = () => {
               color="inherit"
               sx={{
                 marginTop: 2,
-                color: theme.palette.primary.main,
-              }}
-            >
-              Sign in
-            </Button>
-            <Button
-              size="small"
-              variant="text"
-              color="inherit"
-              sx={{
-                marginTop: 2,
-                color: theme.palette.grey[400],
-              }}
-            >
-              Forgot password?
-            </Button>
-            <Button
-              variant="contained"
-              onClick={() => navigate("/signup")}
-              sx={{
-                marginTop: 2,
                 color: "white",
                 bgcolor: theme.palette.primary.main,
                 "&:hover": {
@@ -101,8 +89,20 @@ const Login = () => {
                 },
               }}
             >
-              Sign up
+              Create an account
             </Button>
+            <Typography variant="caption" textAlign="center" marginTop="16px">
+              Already have an account?
+              <span
+                onClick={() => navigate("/login")}
+                style={{
+                  cursor: "pointer",
+                  color: theme.palette.secondary.main,
+                }}
+              >
+                Sign In
+              </span>
+            </Typography>
           </Form>
         </FormikProvider>
       </Box>
