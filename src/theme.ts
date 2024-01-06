@@ -19,9 +19,9 @@ const theme = createTheme({
       disabledBackground: "#d3d3d3",
       disabled: "#d3d3d3",
     },
-    background: {
-      paper: "#A3A3A4", //menu and card bg
-    },
+    // background: {
+    //   paper: "#A3A3A4", //menu and card bg
+    // },
     grey: {
       100: "#E5EAF2",
       200: "#DAE2ED",

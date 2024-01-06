@@ -2,18 +2,23 @@ import { useFormik, FormikProvider, Form } from "formik";
 import { Box, Button, Typography } from "@mui/material";
 import theme from "../../theme";
 import * as Yup from "yup";
-import { CiMail, CiUser } from "react-icons/ci";
-import { FaKey } from "react-icons/fa";
+import { CiMail } from "react-icons/ci";
 import IconTextField from "./IconTextField";
 import AuthFrame from "./AuthFrame";
 import { useNavigate } from "react-router";
+import { useState } from "react";
+import ResetEmailModal from "./ResetEmailModal";
 
 type LoginFormT = {
   email: string;
   password: string;
 };
-const SignUp = () => {
-  const navigate = useNavigate();
+const ForgotPass = () => {
+  //   const navigate = useNavigate();
+  const [isOpen, setIsOpen] = useState(false);
+  const handleCloseModal = () => {
+    setIsOpen(false);
+  };
   const formik = useFormik<LoginFormT>({
     initialValues: {
       email: "",
@@ -42,20 +47,11 @@ const SignUp = () => {
       <Box className="w-full flex justify-center md:items-center items-start h-full">
         <FormikProvider value={formik}>
           <Form className="h-full  justify-center md:w-1/2 w-10/12 flex flex-col">
-            <Typography variant="h5">Create an annount</Typography>
+            <Typography variant="h5">Forgot password?</Typography>
             <Typography variant="caption">
-              Plese create an account to continue using our service{" "}
+              Please enter your email address to continue
             </Typography>
             <Box className="flex flex-col gap-8 my-10 w-full">
-              <IconTextField
-                fullWidth
-                id="name"
-                name="name"
-                label="FULL NAME"
-                type="email"
-                icon={CiUser}
-                sx={{ color: theme.palette.primary.main }}
-              />
               <IconTextField
                 fullWidth
                 id="email"
@@ -65,49 +61,31 @@ const SignUp = () => {
                 icon={CiMail}
                 sx={{ color: theme.palette.primary.main }}
               />
-              {/* Password Input */}
-              <IconTextField
-                fullWidth
-                id="password"
-                name="password"
-                label="Password"
-                type="password"
-                icon={FaKey}
-                sx={{ color: theme.palette.primary.main }}
-              />
             </Box>
             <Button
               type="submit"
               variant="contained"
               color="inherit"
+              onClick={() => {
+                setIsOpen(true);
+              }}
               sx={{
                 marginTop: 2,
                 color: "white",
                 bgcolor: theme.palette.primary.main,
                 "&:hover": {
-                  backgroundColor: theme.palette.primary.dark, // Change to your desired hover color
+                  backgroundColor: theme.palette.primary.dark,
                 },
               }}
             >
-              Create an account
+              Continue{" "}
             </Button>
-            <Typography variant="caption" textAlign="center" marginTop="16px">
-              Already have an account?
-              <span
-                onClick={() => navigate("/login")}
-                style={{
-                  cursor: "pointer",
-                  color: theme.palette.secondary.main,
-                }}
-              >
-                Sign In
-              </span>
-            </Typography>
           </Form>
         </FormikProvider>
       </Box>
+      <ResetEmailModal isOpen={isOpen} onClose={handleCloseModal} />
     </Box>
   );
 };
 
-export default SignUp;
+export default ForgotPass;

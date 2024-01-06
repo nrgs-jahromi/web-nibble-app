@@ -39,9 +39,9 @@ const Login = () => {
   return (
     <Box className="h-screen w-screen flex md:flex-row flex-col">
       <AuthFrame />
-      <Box className="w-full flex justify-center items-center h-full">
+      <Box className="w-full flex justify-center md:items-center items-start h-full">
         <FormikProvider value={formik}>
-          <Form className="h-full  justify-center md:w-1/2 w-8/12 flex flex-col">
+          <Form className="h-full  justify-center md:w-1/2 w-10/12 flex flex-col">
             <Typography variant="h5">Welcome!</Typography>
             <Typography variant="caption">
               Sign in to your account to continue
@@ -85,6 +85,9 @@ const Login = () => {
               sx={{
                 marginTop: 2,
                 color: theme.palette.grey[400],
+              }}
+              onClick={() => {
+                navigate("/passrecovery");
               }}
             >
               Forgot password?
