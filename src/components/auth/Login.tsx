@@ -70,38 +70,27 @@ const Login = () => {
             <Button
               type="submit"
               variant="contained"
-              color="inherit"
-              sx={{
-                marginTop: 2,
-                color: theme.palette.primary.main,
-              }}
+              color="info"
+              sx={{ color: theme.palette.primary.main, marginTop: 2 }}
             >
               Sign in
             </Button>
-            <Button
-              size="small"
-              variant="text"
-              color="inherit"
-              sx={{
-                marginTop: 2,
-                color: theme.palette.grey[400],
-              }}
+
+            <Typography
+              textAlign="center"
+              variant="body2"
+              sx={{ cursor: "pointer", marginTop: 2 }}
               onClick={() => {
                 navigate("/passrecovery");
               }}
             >
               Forgot password?
-            </Button>
+            </Typography>
             <Button
               variant="contained"
               onClick={() => navigate("/signup")}
               sx={{
                 marginTop: 2,
-                color: "white",
-                bgcolor: theme.palette.primary.main,
-                "&:hover": {
-                  backgroundColor: theme.palette.primary.dark, // Change to your desired hover color
-                },
               }}
             >
               Sign up

@@ -15,6 +15,9 @@ const theme = createTheme({
     common: {
       white: "#f2f6fb",
     },
+    info: {
+      main: "#503E9D1A",
+    },
     action: {
       disabledBackground: "#d3d3d3",
       disabled: "#d3d3d3",

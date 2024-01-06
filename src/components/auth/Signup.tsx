@@ -79,14 +79,9 @@ const SignUp = () => {
             <Button
               type="submit"
               variant="contained"
-              color="inherit"
+              color="primary"
               sx={{
                 marginTop: 2,
-                color: "white",
-                bgcolor: theme.palette.primary.main,
-                "&:hover": {
-                  backgroundColor: theme.palette.primary.dark, // Change to your desired hover color
-                },
               }}
             >
               Create an account
