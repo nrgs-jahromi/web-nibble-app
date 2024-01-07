@@ -14,6 +14,7 @@ const theme = createTheme({
     },
     common: {
       white: "#f2f6fb",
+      black: "#00000099",
     },
     info: {
       main: "#503E9D1A",
@@ -26,6 +27,7 @@ const theme = createTheme({
     //   paper: "#A3A3A4", //menu and card bg
     // },
     grey: {
+      50: "#F7F7F7",
       100: "#E5EAF2",
       200: "#DAE2ED",
       300: "#C7D0DD",

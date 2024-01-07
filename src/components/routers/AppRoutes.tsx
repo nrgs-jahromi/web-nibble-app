@@ -3,12 +3,14 @@ import { FC } from "react";
 import Login from "../auth/Login";
 import Signup from "../auth/Signup";
 import ForgotPass from "../auth/ForgotPass";
+import SideNavigation from "../dashboard/SideNavigation";
+import Dashboard from "../dashboard/Dashboard";
 
 const AppRoutes: FC = () => {
   return (
     <BrowserRouter>
       <Routes>
-        {/* <Route path="/" element={<Auth />} /> */}
+        <Route path="/" element={<Dashboard />} />
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
         <Route path="/passrecovery" element={<ForgotPass />} />

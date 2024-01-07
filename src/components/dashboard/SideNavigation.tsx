@@ -1,0 +1,217 @@
+import * as React from "react";
+import { useEffect, ReactNode, useMemo } from "react";
+import { styled, Theme, CSSObject } from "@mui/material/styles";
+import Box from "@mui/material/Box";
+import MuiDrawer from "@mui/material/Drawer";
+import List from "@mui/material/List";
+import CssBaseline from "@mui/material/CssBaseline";
+import ListItem from "@mui/material/ListItem";
+import ListItemButton from "@mui/material/ListItemButton";
+import ListItemIcon from "@mui/material/ListItemIcon";
+import ListItemText from "@mui/material/ListItemText";
+import { Typography, useMediaQuery } from "@mui/material";
+import { GoHome, GoBookmark, GoListUnordered } from "react-icons/go";
+import { IoSettingsOutline } from "react-icons/io5";
+import theme from "../../theme";
+import image from "../../assets/Icon.png";
+import profile from "../../assets/profile.png";
+
+const drawerWidth = 304;
+
+type NavbarItem = {
+  id: string;
+  label: string;
+  path: string;
+  icon: ReactNode;
+};
+const openedMixin = (theme: Theme): CSSObject => ({
+  width: drawerWidth,
+  borderRadius: "0 24px 24px 0",
+  borderRight: "none",
+  backgroundColor: theme.palette.grey[50],
+  padding: theme.spacing(0, 2),
+
+  transition: theme.transitions.create("width", {
+    easing: theme.transitions.easing.sharp,
+    duration: theme.transitions.duration.enteringScreen,
+  }),
+  overflowX: "hidden",
+});
+
+const closedMixin = (theme: Theme): CSSObject => ({
+  backgroundColor: theme.palette.grey[50],
+  borderRadius: "0 24px 24px 0",
+  borderRight: "none",
+  transition: theme.transitions.create("width", {
+    easing: theme.transitions.easing.sharp,
+    duration: theme.transitions.duration.leavingScreen,
+  }),
+  overflowX: "hidden",
+  width: `calc(${theme.spacing(7)} + 1px)`,
+  padding: "0",
+  [theme.breakpoints.up("sm")]: {
+    padding: theme.spacing(0, 3.5),
+    // width: `calc(${theme.spacing(8)} + 1px)`,
+    width: "112px",
+  },
+});
+
+const DrawerHeader = styled("div")(({ theme }) => ({
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "flex-start",
+  padding: theme.spacing(0, 1),
+  // necessary for content to be below app bar
+  ...theme.mixins.toolbar,
+}));
+
+const Drawer = styled(MuiDrawer, {
+  shouldForwardProp: (prop) => prop !== "open",
+})(({ theme, open }) => ({
+  width: drawerWidth,
+  flexShrink: 0,
+  whiteSpace: "nowrap",
+  boxSizing: "border-box",
+  ...(open && {
+    ...openedMixin(theme),
+    "& .MuiDrawer-paper": openedMixin(theme),
+  }),
+  ...(!open && {
+    ...closedMixin(theme),
+    "& .MuiDrawer-paper": closedMixin(theme),
+  }),
+}));
+
+export default function SideNavigation() {
+  const [active, setActive] = React.useState<string | null>(null);
+  const [open, setOpen] = React.useState(false);
+  const isLargeScreen = useMediaQuery("(min-width: 700px)");
+
+  const navbarItems: NavbarItem[] = useMemo(
+    () => [
+      {
+        id: "home",
+        label: "Home",
+        path: "#",
+        icon: <GoHome />,
+      },
+      {
+        id: "favorites",
+        label: "Favorites",
+        path: "#",
+        icon: <GoBookmark />,
+      },
+      {
+        id: "orders",
+        label: "Orders",
+        path: "#",
+        icon: <GoListUnordered />,
+      },
+      {
+        id: "settings",
+        label: "Settings",
+        path: "#",
+        icon: <IoSettingsOutline />,
+      },
+    ],
+    []
+  );
+  // const handleDrawerOpen = () => {
+  //   setOpen(true);
+  // };
+
+  const handleDrawerClose = () => {
+    setOpen(!open);
+  };
+  // const handleMouseEnter = () => {
+  //   if (!isLargeScreen) {
+  //     setOpen(true);
+  //   }
+  // };
+
+  // const handleMouseLeave = () => {
+  //   if (!isLargeScreen) {
+  //     setOpen(false);
+  //   }
+  // };
+  // const handleMouseDown = (event: React.MouseEvent<HTMLButtonElement>) => {
+  //   event.preventDefault();
+  // };
+
+  useEffect(() => {
+    if (isLargeScreen) {
+      setOpen(true);
+    } else {
+      setOpen(false);
+    }
+  }, [isLargeScreen]);
+  return (
+    <Box>
+      <CssBaseline />
+
+      <Drawer variant="permanent" open={open}>
+        <DrawerHeader>
+          <Box onClick={handleDrawerClose} className="flex flex-row gap-2">
+            <img src={image} width={40} />
+            <Typography variant="h6" sx={{ opacity: open ? 1 : 0 }}>
+              Nibble
+            </Typography>
+          </Box>
+        </DrawerHeader>
+        <List>
+          {navbarItems.map((item) => (
+            <ListItem disablePadding sx={{ display: "block" }}>
+              <ListItemButton
+                onClick={() => setActive(item.id)}
+                sx={{
+                  minHeight: 56,
+                  borderRadius: "12px",
+                  justifyContent: open ? "initial" : "center",
+                  px: 2.5,
+                  bgcolor: active === item.id ? theme.palette.primary.main : "",
+                  ":hover": {
+                    bgcolor: theme.palette.primary.light, // Change to the desired hover color
+                  },
+                }}
+              >
+                <ListItemIcon
+                  sx={{
+                    minWidth: 0,
+                    mr: open ? 3 : "auto",
+                    justifyContent: "center",
+                    fontSize: 20,
+                    color: active === item.id ? "white" : "",
+                  }}
+                >
+                  {item.icon}
+                </ListItemIcon>
+                <ListItemText
+                  primary={item.label}
+                  sx={{
+                    opacity: open ? 1 : 0,
+                    color:
+                      active === item.id ? "white" : theme.palette.common.black,
+                  }}
+                />
+              </ListItemButton>
+            </ListItem>
+          ))}{" "}
+        </List>{" "}
+        <Box
+          onClick={handleDrawerClose}
+          className="flex flex-row gap-2 absolute bottom-9"
+        >
+          <img src={profile} />
+          <Box>
+            <Typography variant="body1" sx={{ opacity: open ? 1 : 0 }}>
+              Mark Clarke
+            </Typography>
+            <Typography variant="caption" sx={{ opacity: open ? 1 : 0 }}>
+              markclarke@gmail.com
+            </Typography>
+          </Box>
+        </Box>
+      </Drawer>
+    </Box>
+  );
+}
