@@ -1,5 +1,5 @@
-import React, { FC, ReactNode } from "react";
-import { Box, SxProps } from "@mui/system";
+import { FC, ReactNode } from "react";
+import { Box } from "@mui/system";
 
 interface IconBoxProps {
   color: string;
@@ -11,8 +11,8 @@ interface IconBoxProps {
 const IconBox: FC<IconBoxProps> = ({ color, borderRadius, size, icon }) => {
   return (
     <Box
-      width={size}
-      height={size}
+      minWidth={size}
+      minHeight={size}
       sx={{
         bgcolor: color,
         borderRadius: borderRadius,

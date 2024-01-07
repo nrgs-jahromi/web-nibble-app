@@ -15,6 +15,7 @@ import { IoSettingsOutline } from "react-icons/io5";
 import theme from "../../theme";
 import image from "../../assets/Icon.png";
 import profile from "../../assets/profile.png";
+import { useNavigate } from "react-router";
 
 const drawerWidth = 304;
 
@@ -51,7 +52,6 @@ const closedMixin = (theme: Theme): CSSObject => ({
   padding: "0",
   [theme.breakpoints.up("sm")]: {
     padding: theme.spacing(0, 3.5),
-    // width: `calc(${theme.spacing(8)} + 1px)`,
     width: "112px",
   },
 });
@@ -86,36 +86,47 @@ export default function SideNavigation() {
   const [active, setActive] = React.useState<string | null>(null);
   const [open, setOpen] = React.useState(false);
   const isLargeScreen = useMediaQuery("(min-width: 700px)");
-
+  const navigate = useNavigate();
   const navbarItems: NavbarItem[] = useMemo(
     () => [
       {
         id: "home",
         label: "Home",
-        path: "#",
+        path: "home",
         icon: <GoHome />,
       },
       {
         id: "favorites",
         label: "Favorites",
-        path: "#",
+        path: "favorites",
         icon: <GoBookmark />,
       },
       {
         id: "orders",
         label: "Orders",
-        path: "#",
+        path: "orders",
         icon: <GoListUnordered />,
       },
       {
         id: "settings",
         label: "Settings",
-        path: "#",
+        path: "settings",
         icon: <IoSettingsOutline />,
       },
     ],
     []
   );
+  useEffect(() => {
+    const pathParts = window.location.pathname.split("/");
+    const lastPathPart = pathParts[pathParts.length - 1];
+
+    const matchingNavbarItem = navbarItems.find(
+      (item) => lastPathPart === item.id
+    );
+    if (matchingNavbarItem) {
+      setActive(matchingNavbarItem.id);
+    }
+  }, [navbarItems]);
   // const handleDrawerOpen = () => {
   //   setOpen(true);
   // };
@@ -145,6 +156,10 @@ export default function SideNavigation() {
       setOpen(false);
     }
   }, [isLargeScreen]);
+  const navigateHandler = (item: NavbarItem) => {
+    setActive(item.id);
+    navigate(item.path);
+  };
   return (
     <Box>
       <CssBaseline />
@@ -162,7 +177,7 @@ export default function SideNavigation() {
           {navbarItems.map((item) => (
             <ListItem disablePadding sx={{ display: "block" }}>
               <ListItemButton
-                onClick={() => setActive(item.id)}
+                onClick={() => navigateHandler(item)}
                 sx={{
                   minHeight: 56,
                   borderRadius: "12px",
