@@ -7,17 +7,22 @@ import { FaKey } from "react-icons/fa";
 import IconTextField from "./IconTextField";
 import AuthFrame from "./AuthFrame";
 import { useNavigate } from "react-router";
+import { useUserRegistration } from "../../api/register";
 
-type LoginFormT = {
+type SignUpFormT = {
   email: string;
   password: string;
+  full_name: string;
 };
 const SignUp = () => {
   const navigate = useNavigate();
-  const formik = useFormik<LoginFormT>({
+
+  const { mutate: register } = useUserRegistration();
+  const formik = useFormik<SignUpFormT>({
     initialValues: {
       email: "",
       password: "",
+      full_name: "",
     },
     validationSchema: Yup.object().shape({
       email_address: Yup.string()
@@ -25,17 +30,18 @@ const SignUp = () => {
         .required("Please enter you account's email."),
       password: Yup.string().required("Please enter your password."),
     }),
-    onSubmit: (values) => {
-      console.log("values=", values);
-      // loginUser({
-      //   body: {
-      //     email_address: values.email_address,
-      //     password: values.password,
-      //   },
-      // });
-    },
+    onSubmit: () => {},
   });
 
+  const handleSubmit = () => {
+    register({
+      body: {
+        email: formik.values.email,
+        full_name: formik.values.full_name,
+        password: formik.values.password,
+      },
+    });
+  };
   return (
     <Box className="h-screen w-screen flex md:flex-row flex-col">
       <AuthFrame />
@@ -49,8 +55,8 @@ const SignUp = () => {
             <Box className="flex flex-col gap-8 my-10 w-full">
               <IconTextField
                 fullWidth
-                id="name"
-                name="name"
+                id="full_name"
+                name="full_name"
                 label="FULL NAME"
                 type="text"
                 icon={CiUser}
@@ -77,7 +83,8 @@ const SignUp = () => {
               />
             </Box>
             <Button
-              type="submit"
+              onClick={handleSubmit}
+              // type="submit"
               variant="contained"
               color="primary"
               sx={{
