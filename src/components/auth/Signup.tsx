@@ -84,7 +84,7 @@ const SignUp = () => {
             </Box>
             <Button
               onClick={handleSubmit}
-              // type="submit"
+              type="submit"
               variant="contained"
               color="primary"
               sx={{
