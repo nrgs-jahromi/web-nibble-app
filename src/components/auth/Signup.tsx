@@ -1,5 +1,5 @@
 import { useFormik, FormikProvider, Form } from "formik";
-import { Box, Button, Typography } from "@mui/material";
+import { Box, Button, TextField, Typography } from "@mui/material";
 import theme from "../../theme";
 import * as Yup from "yup";
 import { CiMail, CiUser } from "react-icons/ci";
@@ -52,7 +52,7 @@ const SignUp = () => {
                 id="name"
                 name="name"
                 label="FULL NAME"
-                type="email"
+                type="text"
                 icon={CiUser}
                 sx={{ color: theme.palette.primary.main }}
               />

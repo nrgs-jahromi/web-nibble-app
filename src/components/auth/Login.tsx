@@ -7,6 +7,7 @@ import { FaKey } from "react-icons/fa";
 import IconTextField from "./IconTextField";
 import AuthFrame from "./AuthFrame";
 import { useNavigate } from "react-router";
+import { useUserLogin } from "../../api/loginUser";
 
 type LoginFormT = {
   email: string;
@@ -14,6 +15,16 @@ type LoginFormT = {
 };
 const Login = () => {
   const navigate = useNavigate();
+
+  const {
+    mutate: loginUser,
+    // isSuccess: isUserLoginSuccess,
+    // isLoading: isUserLoginLoading,
+    // isError: isUserLoginError,
+    // error: userLoginError,
+    // data: loginData,
+  } = useUserLogin();
+
   const formik = useFormik<LoginFormT>({
     initialValues: {
       email: "",
@@ -25,23 +36,26 @@ const Login = () => {
         .required("Please enter you account's email."),
       password: Yup.string().required("Please enter your password."),
     }),
-    onSubmit: (values) => {
-      console.log("values=", values);
-      // loginUser({
-      //   body: {
-      //     email_address: values.email_address,
-      //     password: values.password,
-      //   },
-      // });
-    },
+    onSubmit: () => {},
   });
+  const handleSubmit = () => {
+    loginUser({
+      body: {
+        email: formik.values.email,
+        password: formik.values.password,
+      },
+    });
+  };
 
   return (
     <Box className="h-screen w-screen flex md:flex-row flex-col">
       <AuthFrame />
       <Box className="w-full flex justify-center md:items-center items-start h-full">
         <FormikProvider value={formik}>
-          <Form className="h-full  justify-center md:w-1/2 w-10/12 flex flex-col">
+          <Form
+            onSubmit={formik.handleSubmit}
+            className="h-full  justify-center md:w-1/2 w-10/12 flex flex-col"
+          >
             <Typography variant="h5">Welcome!</Typography>
             <Typography variant="caption">
               Sign in to your account to continue
@@ -68,7 +82,8 @@ const Login = () => {
               />
             </Box>
             <Button
-              type="submit"
+              // type="submit"
+              onClick={handleSubmit}
               variant="contained"
               color="info"
               sx={{ color: theme.palette.primary.main, marginTop: 2 }}
