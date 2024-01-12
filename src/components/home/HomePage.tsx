@@ -4,7 +4,10 @@ import { HomeFoods } from "../food/HomeFoods";
 
 const HomePage = () => {
   return (
-    <Box>
+    <Box
+      className="w-full flex flex-col overflow-auto"
+      maxHeight={"calc(100vh - 90px)"}
+    >
       <FeaturedRestaurants />
       <HomeFoods />
     </Box>
