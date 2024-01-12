@@ -6,7 +6,7 @@ import RestaurantImg from "../../assets/RestaurantImg.png";
 export const FeaturedRestaurants = () => {
   return (
     <Box maxWidth={"100%"}>
-      <Box display={"flex"} justifyContent={"space-between"} marginBottom={3}>
+      <Box display={"flex"} justifyContent={"space-between"} marginBottom={1}>
         <Typography variant="h6" fontWeight={"bold"}>
           Restaurant nearby
         </Typography>

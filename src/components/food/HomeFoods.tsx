@@ -6,7 +6,7 @@ import FoodImg from "../../assets/FoodImg.png";
 export const HomeFoods = () => {
   return (
     <Box maxWidth={1200} width={"100%"}>
-      <Box display={"flex"} justifyContent={"space-between"} marginBottom={3}>
+      <Box display={"flex"} justifyContent={"space-between"} marginBottom={1}>
         <Typography variant="h6" fontWeight={"bold"}>
           Asian Food
         </Typography>
