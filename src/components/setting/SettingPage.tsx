@@ -11,8 +11,15 @@ import {
 } from "react-icons/md";
 import theme from "../../theme";
 import SettingItem from "./SettingItem";
+import { useState } from "react";
+import PersonalInfoModal from "./PersonalInfoModal";
 
 const SettingPage = () => {
+  const [userInfoMoadlOpen, setUserInfoModalOpen] = useState(false);
+
+  const userInfoHandler = () => {
+    setUserInfoModalOpen(true);
+  };
   return (
     <Box
       className="w-full flex flex-col overflow-auto"
@@ -31,7 +38,11 @@ const SettingPage = () => {
         >
           General
         </Typography>
-        <SettingItem icon={MdPersonOutline} text="Personal information" />
+        <SettingItem
+          icon={MdPersonOutline}
+          text="Personal information"
+          onClick={userInfoHandler}
+        />
         <Divider sx={{ marginBottom: "12px" }} />
         <SettingItem
           icon={MdBookmarkBorder}
@@ -100,6 +111,10 @@ const SettingPage = () => {
       </Box>
 
       <ListItem />
+      <PersonalInfoModal
+        isOpen={userInfoMoadlOpen}
+        onClose={() => setUserInfoModalOpen(false)}
+      />
     </Box>
   );
 };

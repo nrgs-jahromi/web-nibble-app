@@ -18,7 +18,7 @@ const SettingItem: React.FC<SettingItemProps> = ({
   onClick,
 }) => (
   <Box
-    className="w-full flex flex-row justify-between h-10 items-center"
+    className="w-full flex flex-row justify-between h-10 items-center cursor-pointer"
     onClick={onClick}
   >
     <Box className="flex flex-row gap-4 items-center">
