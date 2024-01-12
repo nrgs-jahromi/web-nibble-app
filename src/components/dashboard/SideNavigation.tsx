@@ -12,6 +12,7 @@ import ListItemText from "@mui/material/ListItemText";
 import { Typography, useMediaQuery } from "@mui/material";
 import { GoHome, GoBookmark, GoListUnordered } from "react-icons/go";
 import { IoSettingsOutline } from "react-icons/io5";
+import { BiCategory } from "react-icons/bi";
 import theme from "../../theme";
 import image from "../../assets/Icon.png";
 import profile from "../../assets/profile.png";
@@ -95,6 +96,12 @@ export default function SideNavigation() {
         path: "home",
         icon: <GoHome />,
       },
+      // {
+      //   id: "explore",
+      //   label: "Explore",
+      //   path: "#",
+      //   icon: <BiCategory />,
+      // },
       {
         id: "favorites",
         label: "Favorites",
@@ -168,7 +175,11 @@ export default function SideNavigation() {
         <DrawerHeader>
           <Box onClick={handleDrawerClose} className="flex flex-row gap-2">
             <img src={image} width={40} />
-            <Typography variant="h6" sx={{ opacity: open ? 1 : 0 }}>
+            <Typography
+              variant="h6"
+              fontWeight="bold"
+              sx={{ opacity: open ? 1 : 0 }}
+            >
               Nibble
             </Typography>
           </Box>

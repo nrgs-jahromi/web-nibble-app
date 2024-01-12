@@ -7,7 +7,7 @@ import { IoFilter, IoMenu } from "react-icons/io5";
 import IconBox from "../baseComponents/IconBox";
 import { BiSearchAlt2 } from "react-icons/bi";
 import theme from "../../theme";
-import { ReactNode } from "react";
+import { ReactNode, useState } from "react";
 import { MdUnfoldMore } from "react-icons/md";
 
 type Filter = {
@@ -16,7 +16,14 @@ type Filter = {
 };
 const DashboardHeadeer = () => {
   const isMdScreen = useMediaQuery(theme.breakpoints.up("md"));
+  const [isCartDrawerOpen, setCartDrawerOpen] = useState(false);
 
+  const handleCartClick = () => {
+    setCartDrawerOpen(true);
+  };
+  const closeCartDrawer = () => {
+    setCartDrawerOpen(false);
+  };
   const filters: Filter[] = [
     {
       icon: (
@@ -82,13 +89,16 @@ const DashboardHeadeer = () => {
             borderRadius={"10px"}
           />
         )}
-        <IconBox
-          icon={<IoMdCart />}
-          color={theme.palette.secondary.main}
-          size={48}
-          borderRadius={"10px"}
-        />
+        <Box onClick={handleCartClick}>
+          <IconBox
+            icon={<IoMdCart />}
+            color={theme.palette.secondary.main}
+            size={48}
+            borderRadius={"10px"}
+          />
+        </Box>
       </Box>
+      {/* <CartDrawer open={isCartDrawerOpen} onClose={closeCartDrawer} /> */}
     </Box>
   );
 };

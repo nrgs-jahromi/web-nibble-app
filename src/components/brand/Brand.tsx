@@ -5,7 +5,7 @@ const Brand = () => {
   return (
     <Box className="flex flex-row justify-center items-center gap-3">
       <img src={image} alt="brand-icon" className="max-w-10 " />
-      <Typography variant="h6" color={"white"}>
+      <Typography variant="h6" fontWeight="bold" color={"white"}>
         Nibble
       </Typography>
     </Box>
