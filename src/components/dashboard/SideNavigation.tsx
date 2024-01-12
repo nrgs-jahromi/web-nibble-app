@@ -85,7 +85,7 @@ const Drawer = styled(MuiDrawer, {
 export default function SideNavigation() {
   const [active, setActive] = React.useState<string | null>(null);
   const [open, setOpen] = React.useState(false);
-  const isLargeScreen = useMediaQuery("(min-width: 700px)");
+  const isLargeScreen = useMediaQuery("(min-width: 768px)");
   const navigate = useNavigate();
   const navbarItems: NavbarItem[] = useMemo(
     () => [
