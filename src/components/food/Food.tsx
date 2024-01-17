@@ -27,6 +27,7 @@ export const Food: FC<Props> = ({
   image,
 }) => {
   const isMdScreen = useMediaQuery(theme.breakpoints.up("md"));
+  const islgScreen = useMediaQuery(theme.breakpoints.up("lg"));
 
   return (
     <Box
@@ -34,16 +35,19 @@ export const Food: FC<Props> = ({
       flexDirection={"column"}
       justifyContent={"space-between"}
       gap={1}
-      width={"fit-content"}
-      sx={{
-        height: isMdScreen ? "230px" : "40vw",
-      }}
+      width={islgScreen ? "30%" : isMdScreen ? "45%" : "100%"}
+      sx={
+        {
+          // height: isMdScreen ? "230px" : "40vw",
+        }
+      }
     >
       <img
         className={
-          isMdScreen
-            ? "w-[330px] h-[180px] object-cover rounded-xl"
-            : "w-[100%] h-[40vw] object-cover rounded-xl"
+          "w-full h-[180px] object-cover rounded-xl"
+          // isMdScreen
+          // ? "w-[330px] h-[180px] object-cover rounded-xl"
+          // : "w-[100%] h-[40vw] object-cover rounded-xl"
         }
         src={image}
         alt="Food Name"

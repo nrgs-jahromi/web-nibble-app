@@ -8,6 +8,7 @@ import SettingPage from "../setting/SettingPage";
 import OrderPage from "../order/OrderPage";
 import HomePage from "../home/HomePage";
 import FavoritePage from "../favorite/FavoritePage";
+import RestaurantPage from "../restaurant/RestaurantPage";
 
 const AppRoutes: FC = () => {
   return (
@@ -22,6 +23,7 @@ const AppRoutes: FC = () => {
           <Route path="orders" element={<OrderPage />} />
           <Route path="home" element={<HomePage />} />
           <Route path="favorites" element={<FavoritePage />} />
+          <Route path="restaurant" element={<RestaurantPage />} />
         </Route>
       </Routes>
     </BrowserRouter>
