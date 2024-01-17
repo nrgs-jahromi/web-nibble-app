@@ -1,4 +1,4 @@
-import { Box, Button, Typography } from "@mui/material";
+import { Box, Button, useMediaQuery } from "@mui/material";
 import { useState } from "react";
 import { MdOutlineStoreMallDirectory, MdRestaurant } from "react-icons/md";
 import RestaurantImg from "../../assets/RestaurantImg.png";
@@ -6,9 +6,12 @@ import FoodImg from "../../assets/FoodImg.png";
 // import { Restaurant } from "@mui/icons-material";
 import { Food } from "../food/Food";
 import { Restaurant } from "../restaurant/Restaurant";
+import theme from "../../theme";
 
 const FavoritePage = () => {
   const [selected, setSelected] = useState("Restaurant");
+  const isMdScreen = useMediaQuery(theme.breakpoints.down("md"));
+
   const selectFoodHandler = () => {
     setSelected("Food");
   };
@@ -156,12 +159,10 @@ const FavoritePage = () => {
       className="w-full flex flex-col overflow-auto gap-6"
       maxHeight={"calc(100vh - 90px)"}
     >
-      {/* <Typography variant="h5" fontWeight="bold">
-        Favorite
-      </Typography> */}
       <Box className="flex flex-row  gap-4">
         <Button
           startIcon={<MdRestaurant />}
+          fullWidth={isMdScreen}
           variant={selected === "Restaurant" ? "contained" : "outlined"}
           onClick={selectRestaurantHandler}
         >
@@ -169,6 +170,7 @@ const FavoritePage = () => {
         </Button>
         <Button
           startIcon={<MdOutlineStoreMallDirectory />}
+          fullWidth={isMdScreen}
           variant={selected === "Food" ? "contained" : "outlined"}
           onClick={selectFoodHandler}
         >
