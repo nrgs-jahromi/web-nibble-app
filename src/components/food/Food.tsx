@@ -1,7 +1,7 @@
 import { Box, Typography, useMediaQuery } from "@mui/material";
 import { PiMotorcycleFill } from "react-icons/pi";
 import { FaStar } from "react-icons/fa";
-import { MdHeight, MdOutlineRestaurant } from "react-icons/md";
+import { MdOutlineRestaurant } from "react-icons/md";
 import { FC } from "react";
 import theme from "../../theme";
 

@@ -6,9 +6,16 @@ interface IconBoxProps {
   borderRadius: string;
   size: number;
   icon: ReactNode;
+  onClick?: () => void;
 }
 
-const IconBox: FC<IconBoxProps> = ({ color, borderRadius, size, icon }) => {
+const IconBox: FC<IconBoxProps> = ({
+  color,
+  borderRadius,
+  size,
+  icon,
+  onClick,
+}) => {
   return (
     <Box
       minWidth={size}
@@ -22,6 +29,7 @@ const IconBox: FC<IconBoxProps> = ({ color, borderRadius, size, icon }) => {
         color: "white",
         fontSize: size * 0.5, // Adjust the font size based on the icon size
       }}
+      onClick={onClick}
     >
       {icon}
     </Box>

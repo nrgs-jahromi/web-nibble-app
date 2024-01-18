@@ -1,4 +1,4 @@
-import { Box, Button, Typography, Grid } from "@mui/material";
+import { Box, Button, Typography } from "@mui/material";
 import { FaAngleRight } from "react-icons/fa";
 import { Restaurant } from "./Restaurant";
 import RestaurantImg from "../../assets/RestaurantImg.png";

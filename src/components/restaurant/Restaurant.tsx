@@ -1,4 +1,4 @@
-import { Box, Typography, colors } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 import { FaStar } from "react-icons/fa6";
 import { MdOutlineRestaurant } from "react-icons/md";
 import { RiMoneyDollarBoxLine } from "react-icons/ri";
