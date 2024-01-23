@@ -17,6 +17,7 @@ import theme from "../../theme";
 import image from "../../assets/Icon.png";
 import profile from "../../assets/profile.png";
 import { useNavigate } from "react-router";
+import Advertize from "../brand/Advertize";
 
 const drawerWidth = 304;
 
@@ -221,8 +222,12 @@ export default function SideNavigation() {
                 />
               </ListItemButton>
             </ListItem>
-          ))}{" "}
-        </List>{" "}
+          ))}
+        </List>
+
+        <Box className="w-full flex justify-center mt-3">
+          {open && <Advertize />}
+        </Box>
         <Box
           onClick={handleDrawerClose}
           className="flex flex-row gap-2 absolute bottom-9"

@@ -18,8 +18,8 @@ const IconBox: FC<IconBoxProps> = ({
 }) => {
   return (
     <Box
-      minWidth={size}
-      minHeight={size}
+      width={size}
+      height={size}
       sx={{
         bgcolor: color,
         borderRadius: borderRadius,
