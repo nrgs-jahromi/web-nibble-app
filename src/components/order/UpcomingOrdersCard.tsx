@@ -49,7 +49,7 @@ const UpcomingOrdersCard = () => {
 
   return (
     <Box
-      className=" h-40 bg-neutral-100"
+      className=" min-h-40 min-w-72 bg-neutral-100"
       width={islgScreen ? "30%" : isMdScreen ? "45%" : "100%"}
       sx={{
         borderRadius: "16px",
