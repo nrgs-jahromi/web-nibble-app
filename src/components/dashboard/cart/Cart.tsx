@@ -22,6 +22,8 @@ import CartItem from "./CartItem";
 import { IoMdAdd } from "react-icons/io";
 import { MdOutlineDeliveryDining, MdOutlinePersonAddAlt } from "react-icons/md";
 import { BiSolidDiscount } from "react-icons/bi";
+import PersonalInfoModal from "../../setting/PersonalInfoModal";
+import PromoCodeModal from "./PromoCodeModal";
 
 interface ProfileDrawerProps {
   open: boolean;
@@ -29,6 +31,10 @@ interface ProfileDrawerProps {
 }
 
 export default function CartDrawer({ open, onClose }: ProfileDrawerProps) {
+  const [isPromoCodeModalOpen, setIsPromoCodeModalOpen] = useState(false);
+  const closePromoCodeModal = () => {
+    setIsPromoCodeModalOpen(false);
+  };
   const cartItem = [
     {
       image: FoodImg,
@@ -177,6 +183,7 @@ export default function CartDrawer({ open, onClose }: ProfileDrawerProps) {
                   </Box>
                 </Box>
                 <IconBox
+                  onClick={() => setIsPromoCodeModalOpen(true)}
                   icon={<IoMdAdd color="white" />}
                   color={theme.palette.primary.main}
                   size={44}
@@ -211,6 +218,10 @@ export default function CartDrawer({ open, onClose }: ProfileDrawerProps) {
             </Typography>
           </Button>
         </Box>
+        <PromoCodeModal
+          isOpen={isPromoCodeModalOpen}
+          onClose={closePromoCodeModal}
+        />
       </Drawer>
     </Box>
   );
