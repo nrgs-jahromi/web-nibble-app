@@ -7,7 +7,8 @@ interface CategoryItemProps {
   icon: React.ReactNode;
   title: string;
   description: string;
-  color: string; // You may want to use a more specific type for color
+  color: string;
+  onClick?: () => void;
 }
 
 const CategoryItem: React.FC<CategoryItemProps> = ({
@@ -15,11 +16,13 @@ const CategoryItem: React.FC<CategoryItemProps> = ({
   title,
   description,
   color,
+  onClick,
 }: CategoryItemProps) => {
   return (
     <Box
       className="h-20 min-w-44 rounded-xl flex flex-row justify-evenly items-center"
-      style={{ backgroundColor: theme.palette.grey[50] }}
+      sx={{ backgroundColor: theme.palette.grey[50], cursor: "pointer" }}
+      onClick={onClick}
     >
       <IconBox size={48} icon={icon} color={color} borderRadius="10px" />
       <Box className="flex flex-col items-center">

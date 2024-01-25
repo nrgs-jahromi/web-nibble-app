@@ -11,46 +11,58 @@ import {
   MdRestaurant,
 } from "react-icons/md";
 import CategoryItem from "./CategoryItem";
+import { useNavigate } from "react-router";
 
 export const Categories = () => {
+  const navigate = useNavigate();
   const categoriesData = [
     {
       icon: <BsFire />,
+      path: "popular",
       title: "Popular",
       description: "286+ options",
       color: theme.palette.secondary.main,
     },
     {
       icon: <MdOutlineDeliveryDining />,
+      path: "free-delivery",
       title: "Free delivery",
       description: "286+ options",
       color: theme.palette.primary.main,
     },
     {
       icon: <MdOutlineAccountBalanceWallet />,
+      path: "high-class",
       title: " High class",
       description: "286+ options",
       color: theme.palette.warning.main,
     },
     {
       icon: <MdRestaurant />,
+      path: "dine-in",
       title: "Dine in",
       description: "286+ options",
       color: theme.palette.secondary.main,
     },
     {
       icon: <MdOutlineStoreMallDirectory />,
+      path: "open",
       title: "Open now",
       description: "286+ options",
       color: theme.palette.primary.main,
     },
     {
       icon: <CiMap />,
+      path: "nearest",
       title: "Nearest",
       description: "286+ options",
       color: theme.palette.warning.main,
     },
   ];
+
+  const selectCategory = (path: string) => {
+    navigate(path);
+  };
 
   return (
     <Box maxWidth="100%">
@@ -71,7 +83,11 @@ export const Categories = () => {
         overflow="auto"
       >
         {categoriesData.map((category, index) => (
-          <CategoryItem key={index} {...category} />
+          <CategoryItem
+            key={index}
+            {...category}
+            onClick={() => selectCategory(category.path)}
+          />
         ))}
       </Box>
     </Box>

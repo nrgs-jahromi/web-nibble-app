@@ -10,6 +10,7 @@ import HomePage from "../home/HomePage";
 import FavoritePage from "../favorite/FavoritePage";
 import RestaurantPage from "../restaurant/RestaurantPage";
 import PassRecovery from "../auth/PassRecovery";
+import CategoryPage from "../home/CategoryPage";
 
 const AppRoutes: FC = () => {
   return (
@@ -24,6 +25,7 @@ const AppRoutes: FC = () => {
           <Route path="settings" element={<SettingPage />} />
           <Route path="orders" element={<OrderPage />} />
           <Route path="home" element={<HomePage />} />
+          <Route path="home/:category" element={<CategoryPage />} />
           <Route path="favorites" element={<FavoritePage />} />
           <Route path="restaurant" element={<RestaurantPage />} />
         </Route>
