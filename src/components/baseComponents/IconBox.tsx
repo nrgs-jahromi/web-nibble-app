@@ -22,6 +22,7 @@ const IconBox: FC<IconBoxProps> = ({
       height={size}
       minWidth={size}
       sx={{
+        cursor: "pointer",
         bgcolor: color,
         borderRadius: borderRadius,
         display: "flex",

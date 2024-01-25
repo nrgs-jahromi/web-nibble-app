@@ -8,6 +8,7 @@ const theme = createTheme({
     },
     secondary: {
       main: "#FB6D3A", // Secondary color
+      light: "#FB6D3A1A",
     },
     warning: {
       main: "#FACD5D", //yellow

@@ -33,7 +33,7 @@ const Advertize = () => {
           <IconBox
             size={48}
             icon={<BsFire color={theme.palette.secondary.main} />}
-            color="#FB6D3A1A"
+            color={theme.palette.secondary.light}
             borderRadius="10px"
           />
           <Typography variant="body1" fontWeight={"bold"} align="center">

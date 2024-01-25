@@ -67,7 +67,7 @@ const PreviousOrdersCard = () => {
           fullWidth
           variant="text"
           color="secondary"
-          sx={{ bgcolor: "#FB6D3A1A" }}
+          sx={{ bgcolor: theme.palette.secondary.light }}
         >
           Get help
         </Button>
