@@ -18,6 +18,7 @@ import image from "../../assets/Icon.png";
 import profile from "../../assets/profile.png";
 import { useNavigate } from "react-router";
 import Advertize from "../brand/Advertize";
+import { useUserInfo } from "../../api/profile/profileInformation";
 
 const drawerWidth = 304;
 
@@ -89,6 +90,11 @@ export default function SideNavigation() {
   const [open, setOpen] = React.useState(false);
   const isLargeScreen = useMediaQuery("(min-width: 768px)");
   const navigate = useNavigate();
+  const userId = parseInt(localStorage.getItem("userId") || "0", 10); // '0' در صورتی که مقدار null باشد
+  const { data: userInfo, isSuccess: isUserInfoSuccess } = useUserInfo({
+    body: { id: userId },
+  });
+
   const navbarItems: NavbarItem[] = useMemo(
     () => [
       {
@@ -235,10 +241,10 @@ export default function SideNavigation() {
           <img src={profile} />
           <Box>
             <Typography variant="body1" sx={{ opacity: open ? 1 : 0 }}>
-              Mark Clarke
+              {userInfo?.full_name}
             </Typography>
             <Typography variant="caption" sx={{ opacity: open ? 1 : 0 }}>
-              markclarke@gmail.com
+              {userInfo?.email}
             </Typography>
           </Box>
         </Box>

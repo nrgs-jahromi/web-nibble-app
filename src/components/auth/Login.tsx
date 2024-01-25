@@ -50,7 +50,7 @@ const Login = () => {
   useEffect(() => {
     if (isUserLoginSuccess) {
       localStorage.setItem("accessToken", loginData?.token);
-      localStorage.setItem("userId", loginData?.id);
+      localStorage.setItem("userId", loginData?.id.toString());
       navigate("/");
     }
   }, [isUserLoginSuccess, loginData]);
