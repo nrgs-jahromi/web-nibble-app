@@ -4,8 +4,8 @@ import { ApiError, fetcher } from "../config";
 type DataT = {
   body: {
     email: string;
-    full_name: string;
-    password: string;
+    full_name?: string;
+    password?: string;
   };
 };
 

@@ -90,7 +90,7 @@ export default function SideNavigation() {
   const [open, setOpen] = React.useState(false);
   const isLargeScreen = useMediaQuery("(min-width: 768px)");
   const navigate = useNavigate();
-  const userId = parseInt(localStorage.getItem("userId") || "0", 10); // '0' در صورتی که مقدار null باشد
+  const userId = parseInt(localStorage.getItem("userId") || "0", 10);
   const { data: userInfo, isSuccess: isUserInfoSuccess } = useUserInfo({
     body: { id: userId },
   });

@@ -8,7 +8,8 @@ import IconTextField from "./IconTextField";
 import AuthFrame from "./AuthFrame";
 import { useNavigate } from "react-router";
 import { useUserLogin } from "../../api/auth/loginUser";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import VerifyEmailModal from "./VerifyAlert";
 
 type LoginFormT = {
   email: string;
@@ -16,13 +17,13 @@ type LoginFormT = {
 };
 const Login = () => {
   const navigate = useNavigate();
-
+  const [isOpen, setIsOpen] = useState(false);
   const {
     mutate: loginUser,
     isSuccess: isUserLoginSuccess,
     // isLoading: isUserLoginLoading,
-    // isError: isUserLoginError,
-    // error: userLoginError,
+    isError: isUserLoginError,
+    error: userLoginError,
     data: loginData,
   } = useUserLogin();
 
@@ -46,6 +47,12 @@ const Login = () => {
         password: formik.values.password,
       },
     });
+    if (
+      isUserLoginError &&
+      userLoginError.response?.data.error === "You are not verified!"
+    ) {
+      setIsOpen(true);
+    }
   };
   useEffect(() => {
     if (isUserLoginSuccess) {
@@ -121,6 +128,11 @@ const Login = () => {
           </Form>
         </FormikProvider>
       </Box>
+      <VerifyEmailModal
+        isOpen={isOpen}
+        onClose={() => setIsOpen(false)}
+        email={formik.values.email}
+      />
     </Box>
   );
 };

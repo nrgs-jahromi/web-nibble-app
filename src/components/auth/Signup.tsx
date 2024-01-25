@@ -8,6 +8,8 @@ import IconTextField from "./IconTextField";
 import AuthFrame from "./AuthFrame";
 import { useNavigate } from "react-router";
 import { useUserRegistration } from "../../api/auth/register";
+import { useState } from "react";
+import VerifyEmailModal from "./VerifyAlert";
 
 type SignUpFormT = {
   email: string;
@@ -16,8 +18,9 @@ type SignUpFormT = {
 };
 const SignUp = () => {
   const navigate = useNavigate();
-
-  const { mutate: register } = useUserRegistration();
+  const [openVerifyModal, setOpenVerifyModal] = useState(false);
+  const { mutate: register, isSuccess: isRegisterSuccess } =
+    useUserRegistration();
   const formik = useFormik<SignUpFormT>({
     initialValues: {
       email: "",
@@ -41,6 +44,9 @@ const SignUp = () => {
         password: formik.values.password,
       },
     });
+    if (isRegisterSuccess) {
+      setOpenVerifyModal(true);
+    }
   };
   return (
     <Box className="h-screen w-screen flex md:flex-row flex-col">
@@ -108,6 +114,11 @@ const SignUp = () => {
           </Form>
         </FormikProvider>
       </Box>
+      <VerifyEmailModal
+        isOpen={openVerifyModal}
+        onClose={() => setOpenVerifyModal(false)}
+        email={formik.values.email}
+      />
     </Box>
   );
 };

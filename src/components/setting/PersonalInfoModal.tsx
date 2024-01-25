@@ -22,12 +22,18 @@ import {
   MdPersonOutline,
   MdPhone,
 } from "react-icons/md";
+import { useUserInfo } from "../../api/profile/profileInformation";
 type Props = {
   isOpen: boolean;
   onClose: () => void;
 };
 
 const PersonalInfoModal: FC<Props> = ({ isOpen, onClose }) => {
+  const userId = parseInt(localStorage.getItem("userId") || "0", 10); // '0' در صورتی که مقدار null باشد
+  const { data: userInfo, isSuccess: isUserInfoSuccess } = useUserInfo({
+    body: { id: userId },
+  });
+
   return (
     <Dialog
       maxWidth="xs"
@@ -88,7 +94,8 @@ const PersonalInfoModal: FC<Props> = ({ isOpen, onClose }) => {
               fullWidth
               variant="standard"
               label="FULL NAME"
-              placeholder="wlkefm"
+              placeholder="enter your full name"
+              defaultValue={userInfo?.full_name}
               InputLabelProps={{
                 shrink: true,
               }}
@@ -105,7 +112,8 @@ const PersonalInfoModal: FC<Props> = ({ isOpen, onClose }) => {
               fullWidth
               variant="standard"
               label="EMAIL ADDRESS"
-              placeholder="mefnelkwfm"
+              placeholder="enter your email"
+              defaultValue={userInfo?.email}
               InputLabelProps={{
                 shrink: true,
               }}
@@ -122,7 +130,8 @@ const PersonalInfoModal: FC<Props> = ({ isOpen, onClose }) => {
               fullWidth
               variant="standard"
               label="PHONE NUMBER"
-              placeholder="street"
+              placeholder="enter your phone number"
+              defaultValue={userInfo?.phone}
               InputLabelProps={{
                 shrink: true,
               }}
