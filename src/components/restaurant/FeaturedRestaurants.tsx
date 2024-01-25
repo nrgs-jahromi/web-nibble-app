@@ -1,9 +1,11 @@
-import { Box, Button, Typography } from "@mui/material";
+import { Box, Button, Typography, useMediaQuery } from "@mui/material";
 import { FaAngleRight } from "react-icons/fa";
 import { Restaurant } from "./Restaurant";
 import RestaurantImg from "../../assets/RestaurantImg.png";
+import theme from "../../theme";
 
 export const FeaturedRestaurants = () => {
+  const isMdScreen = useMediaQuery(theme.breakpoints.up("md"));
   return (
     <Box maxWidth={"100%"}>
       <Box display={"flex"} justifyContent={"space-between"} marginBottom={1}>
@@ -15,11 +17,13 @@ export const FeaturedRestaurants = () => {
         </Button>
       </Box>
       <Box
+        maxWidth={"100%"}
+        overflow={"auto"}
         display={"flex"}
-        flexWrap={"wrap"}
         justifyContent={"space-between"}
         alignContent={"flex-start"}
         gap={1}
+        className="flex-nowrap xl:flex-wrap"
       >
         <Restaurant
           img={RestaurantImg}
