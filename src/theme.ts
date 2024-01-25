@@ -12,6 +12,7 @@ const theme = createTheme({
     },
     warning: {
       main: "#FACD5D", //yellow
+      light: "#FACD5D1A",
     },
     common: {
       white: "#f2f6fb",

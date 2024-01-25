@@ -9,7 +9,7 @@ import { BiSearchAlt2 } from "react-icons/bi";
 import theme from "../../theme";
 import { ReactNode, useState } from "react";
 import { MdUnfoldMore } from "react-icons/md";
-import CartDrawer from "./Cart";
+import CartDrawer from "./cart/Cart";
 
 type Filter = {
   text: string;
