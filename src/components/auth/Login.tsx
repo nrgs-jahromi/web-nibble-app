@@ -51,7 +51,7 @@ const Login = () => {
     if (isUserLoginSuccess) {
       localStorage.setItem("accessToken", loginData?.token);
       localStorage.setItem("userId", loginData?.id.toString());
-      navigate("/");
+      navigate("/home");
     }
   }, [isUserLoginSuccess, loginData]);
 
