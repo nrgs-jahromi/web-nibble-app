@@ -7,7 +7,7 @@ import { FaKey } from "react-icons/fa";
 import IconTextField from "./IconTextField";
 import AuthFrame from "./AuthFrame";
 import { useNavigate } from "react-router";
-import { useUserRegistration } from "../../api/register";
+import { useUserRegistration } from "../../api/auth/register";
 
 type SignUpFormT = {
   email: string;

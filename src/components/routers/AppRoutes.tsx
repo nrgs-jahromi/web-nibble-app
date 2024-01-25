@@ -19,7 +19,7 @@ const AppRoutes: FC = () => {
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
         <Route path="/passrecovery/" element={<ForgotPass />} />
-        <Route path="/passrecovery/setnew" element={<PassRecovery />} />
+        <Route path="/passrecovery/setnew/" element={<PassRecovery />} />
 
         <Route path="/*" element={<Dashboard />}>
           <Route path="settings" element={<SettingPage />} />

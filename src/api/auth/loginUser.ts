@@ -1,5 +1,5 @@
 import { MutationFunction, useMutation } from "@tanstack/react-query";
-import { ApiError, fetcher } from "./config";
+import { ApiError, fetcher } from "../config";
 
 type DataT = {
   body: {
@@ -12,6 +12,7 @@ type ResT = {
   username: string;
   password: string;
   token: string;
+  id: number;
 };
 
 const loginUser: MutationFunction<ResT, DataT> = async (data) => {

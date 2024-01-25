@@ -8,6 +8,7 @@ import AuthFrame from "./AuthFrame";
 import { useNavigate } from "react-router";
 import { useState } from "react";
 import ResetEmailModal from "./ResetEmailModal";
+import { useForgotPass } from "../../api/auth/forgotPass";
 
 type LoginFormT = {
   email: string;
@@ -19,6 +20,8 @@ const ForgotPass = () => {
   const handleCloseModal = () => {
     setIsOpen(false);
   };
+  const { mutate: sendmMail, isSuccess: sendMailSuccessfully } =
+    useForgotPass();
   const formik = useFormik<LoginFormT>({
     initialValues: {
       email: "",
@@ -41,6 +44,15 @@ const ForgotPass = () => {
     },
   });
 
+  const handler = () => {
+    sendmMail({
+      body: {
+        email: formik.values.email,
+      },
+    });
+
+    if (sendMailSuccessfully) setIsOpen(true);
+  };
   return (
     <Box className="h-screen w-screen flex md:flex-row flex-col">
       <AuthFrame />
@@ -66,9 +78,7 @@ const ForgotPass = () => {
               type="submit"
               variant="contained"
               color="inherit"
-              onClick={() => {
-                setIsOpen(true);
-              }}
+              onClick={handler}
               sx={{
                 marginTop: 2,
                 color: "white",

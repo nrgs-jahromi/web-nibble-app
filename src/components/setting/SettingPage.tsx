@@ -13,12 +13,17 @@ import theme from "../../theme";
 import SettingItem from "./SettingItem";
 import { useState } from "react";
 import PersonalInfoModal from "./PersonalInfoModal";
+import AddressModal from "./AddressModal";
 
 const SettingPage = () => {
-  const [userInfoMoadlOpen, setUserInfoModalOpen] = useState(false);
+  const [userInfoModalOpen, setUserInfoModalOpen] = useState(false);
+  const [userAddressModalOpen, setUserAddressModalOpen] = useState(false);
 
   const userInfoHandler = () => {
     setUserInfoModalOpen(true);
+  };
+  const userAddressModalHandler = () => {
+    setUserAddressModalOpen(true);
   };
   return (
     <Box
@@ -48,6 +53,7 @@ const SettingPage = () => {
           icon={MdBookmarkBorder}
           text="Saved addresses"
           color={theme.palette.secondary.main}
+          onClick={userAddressModalHandler}
         />
         <Divider sx={{ marginBottom: "12px" }} />
         <SettingItem
@@ -112,8 +118,12 @@ const SettingPage = () => {
 
       <ListItem />
       <PersonalInfoModal
-        isOpen={userInfoMoadlOpen}
+        isOpen={userInfoModalOpen}
         onClose={() => setUserInfoModalOpen(false)}
+      />
+      <AddressModal
+        isOpen={userAddressModalOpen}
+        onClose={() => setUserAddressModalOpen(false)}
       />
     </Box>
   );

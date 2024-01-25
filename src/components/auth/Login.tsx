@@ -7,7 +7,7 @@ import { FaKey } from "react-icons/fa";
 import IconTextField from "./IconTextField";
 import AuthFrame from "./AuthFrame";
 import { useNavigate } from "react-router";
-import { useUserLogin } from "../../api/loginUser";
+import { useUserLogin } from "../../api/auth/loginUser";
 import { useEffect } from "react";
 
 type LoginFormT = {
@@ -50,6 +50,8 @@ const Login = () => {
   useEffect(() => {
     if (isUserLoginSuccess) {
       localStorage.setItem("accessToken", loginData?.token);
+      localStorage.setItem("userId", loginData?.id);
+      navigate("/");
     }
   }, [isUserLoginSuccess, loginData]);
 

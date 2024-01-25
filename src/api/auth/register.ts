@@ -1,5 +1,5 @@
 import { MutationFunction, useMutation } from "@tanstack/react-query";
-import { ApiError, fetcher } from "./config";
+import { ApiError, fetcher } from "../config";
 
 type DataT = {
   body: {
