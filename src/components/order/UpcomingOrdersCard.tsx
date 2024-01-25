@@ -3,6 +3,7 @@ import theme from "../../theme";
 import { PiClockCountdownThin } from "react-icons/pi";
 import ProgressBar from "./Progressbar";
 import { useEffect, useState } from "react";
+import OrderDetailDrawer from "./OrderDetailDrawer";
 
 const UpcomingOrdersCard = () => {
   const isMdScreen = useMediaQuery(theme.breakpoints.up("md"));
@@ -16,8 +17,15 @@ const UpcomingOrdersCard = () => {
   const [hasConfirmed, setHasConfirmed] = useState(false);
   const [hasPrepared, setHasPrepared] = useState(false);
   const [hasDeliverd, setHasDeliverd] = useState(false);
-
+  const [isOrderDrawerOpen, setIsOrderDrawerOpen] = useState(false);
   // ...
+
+  const handleOpenDrawer = () => {
+    setIsOrderDrawerOpen(true);
+  };
+  const closeDrawer = () => {
+    setIsOrderDrawerOpen(false);
+  };
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -75,7 +83,11 @@ const UpcomingOrdersCard = () => {
             </Typography>
           </Box>
         </Box>
-        <Button variant="contained" sx={{ width: "80px" }}>
+        <Button
+          variant="contained"
+          sx={{ width: "80px" }}
+          onClick={handleOpenDrawer}
+        >
           Track
         </Button>
       </Box>
@@ -89,6 +101,7 @@ const UpcomingOrdersCard = () => {
         />
         <ProgressBar width={50} totalTime={deliveryTime} start={hasPrepared} />
       </Box>
+      <OrderDetailDrawer open={isOrderDrawerOpen} onClose={closeDrawer} />
     </Box>
   );
 };

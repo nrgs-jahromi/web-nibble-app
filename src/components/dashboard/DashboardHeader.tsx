@@ -9,12 +9,13 @@ import { BiSearchAlt2 } from "react-icons/bi";
 import theme from "../../theme";
 import { ReactNode, useState } from "react";
 import { MdUnfoldMore } from "react-icons/md";
+import CartDrawer from "./Cart";
 
 type Filter = {
   text: string;
   icon: ReactNode;
 };
-const DashboardHeadeer = () => {
+const DashboardHeader = () => {
   const isMdScreen = useMediaQuery(theme.breakpoints.up("md"));
   const [isCartDrawerOpen, setCartDrawerOpen] = useState(false);
 
@@ -98,8 +99,8 @@ const DashboardHeadeer = () => {
           />
         </Box>
       </Box>
-      {/* <CartDrawer open={isCartDrawerOpen} onClose={closeCartDrawer} /> */}
+      <CartDrawer open={isCartDrawerOpen} onClose={closeCartDrawer} />
     </Box>
   );
 };
-export default DashboardHeadeer;
+export default DashboardHeader;

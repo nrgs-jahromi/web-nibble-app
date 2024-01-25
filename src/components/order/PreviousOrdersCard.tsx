@@ -2,10 +2,21 @@ import { Box, Button, Typography, useMediaQuery } from "@mui/material";
 import theme from "../../theme";
 import { GoCalendar, GoClock } from "react-icons/go";
 import PreviousOrderItem from "./PreviousOrderItem";
+import { useState } from "react";
+import PreviousOrderDrawer from "./PreviousOrderDetail";
 
 const PreviousOrdersCard = () => {
   const isMdScreen = useMediaQuery(theme.breakpoints.up("md"));
   const islgScreen = useMediaQuery(theme.breakpoints.up("lg"));
+  const [isOrderDrawerOpen, setIsOrderDrawerOpen] = useState(false);
+  // ...
+
+  const handleOpenDrawer = () => {
+    setIsOrderDrawerOpen(true);
+  };
+  const closeDrawer = () => {
+    setIsOrderDrawerOpen(false);
+  };
   return (
     <Box
       className=" min-h-60 max-h-60 bg-neutral-100"
@@ -48,6 +59,7 @@ const PreviousOrdersCard = () => {
           variant="contained"
           color="secondary"
           sx={{ color: "white" }}
+          onClick={handleOpenDrawer}
         >
           Details
         </Button>
@@ -60,6 +72,7 @@ const PreviousOrdersCard = () => {
           Get help
         </Button>
       </Box>
+      <PreviousOrderDrawer open={isOrderDrawerOpen} onClose={closeDrawer} />
     </Box>
   );
 };

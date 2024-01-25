@@ -1,6 +1,6 @@
 import { Box } from "@mui/material";
 import SideNavigation from "./SideNavigation";
-import DashboardHeadeer from "./DashboardHeader";
+import DashboardHeader from "./DashboardHeader";
 import { Outlet } from "react-router";
 
 const Dashboard = () => {
@@ -8,7 +8,7 @@ const Dashboard = () => {
     <Box className="flex h-screen w-screen">
       <SideNavigation />
       <Box className="flex flex-col w-full h-full p-5 overflow-auto">
-        <DashboardHeadeer />
+        <DashboardHeader />
         <Box component="main" sx={{ flexGrow: 1, pt: "20px" }}>
           <Outlet />
         </Box>

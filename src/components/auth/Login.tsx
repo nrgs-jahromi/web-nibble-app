@@ -8,6 +8,7 @@ import IconTextField from "./IconTextField";
 import AuthFrame from "./AuthFrame";
 import { useNavigate } from "react-router";
 import { useUserLogin } from "../../api/loginUser";
+import { useEffect } from "react";
 
 type LoginFormT = {
   email: string;
@@ -18,11 +19,11 @@ const Login = () => {
 
   const {
     mutate: loginUser,
-    // isSuccess: isUserLoginSuccess,
+    isSuccess: isUserLoginSuccess,
     // isLoading: isUserLoginLoading,
     // isError: isUserLoginError,
     // error: userLoginError,
-    // data: loginData,
+    data: loginData,
   } = useUserLogin();
 
   const formik = useFormik<LoginFormT>({
@@ -46,6 +47,11 @@ const Login = () => {
       },
     });
   };
+  useEffect(() => {
+    if (isUserLoginSuccess) {
+      localStorage.setItem("accessToken", loginData?.token);
+    }
+  }, [isUserLoginSuccess, loginData]);
 
   return (
     <Box className="h-screen w-screen flex md:flex-row flex-col">
