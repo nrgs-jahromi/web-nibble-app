@@ -24,6 +24,7 @@ import { MdOutlineDeliveryDining, MdOutlinePersonAddAlt } from "react-icons/md";
 import { BiSolidDiscount } from "react-icons/bi";
 import PersonalInfoModal from "../../setting/PersonalInfoModal";
 import PromoCodeModal from "./PromoCodeModal";
+import DeliveryAddressModal from "./DeliveryAddressModal";
 
 interface ProfileDrawerProps {
   open: boolean;
@@ -32,8 +33,14 @@ interface ProfileDrawerProps {
 
 export default function CartDrawer({ open, onClose }: ProfileDrawerProps) {
   const [isPromoCodeModalOpen, setIsPromoCodeModalOpen] = useState(false);
+  const [isDeliveryAddressModalOpen, setIsDeliveryAddressModalOpen] =
+    useState(false);
+
   const closePromoCodeModal = () => {
     setIsPromoCodeModalOpen(false);
+  };
+  const closeDeliveryAddressModal = () => {
+    setIsDeliveryAddressModalOpen(false);
   };
   const cartItem = [
     {
@@ -97,6 +104,7 @@ export default function CartDrawer({ open, onClose }: ProfileDrawerProps) {
               </span>
             </Typography>
             <Button
+              onClick={() => setIsDeliveryAddressModalOpen(true)}
               variant="text"
               endIcon={<FaAngleRight color={theme.palette.grey[500]} />}
               fullWidth
@@ -221,6 +229,10 @@ export default function CartDrawer({ open, onClose }: ProfileDrawerProps) {
         <PromoCodeModal
           isOpen={isPromoCodeModalOpen}
           onClose={closePromoCodeModal}
+        />
+        <DeliveryAddressModal
+          isOpen={isDeliveryAddressModalOpen}
+          onClose={closeDeliveryAddressModal}
         />
       </Drawer>
     </Box>
