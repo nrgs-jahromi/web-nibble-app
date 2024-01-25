@@ -1,0 +1,99 @@
+import { useFormik, FormikProvider, Form } from "formik";
+import { Box, Button, Typography } from "@mui/material";
+import theme from "../../theme";
+import * as Yup from "yup";
+import { CiMail } from "react-icons/ci";
+import IconTextField from "./IconTextField";
+import AuthFrame from "./AuthFrame";
+import { useNavigate } from "react-router";
+import { useState } from "react";
+import ResetEmailModal from "./ResetEmailModal";
+
+type LoginFormT = {
+  password: string;
+  confirm: string;
+};
+const PassRecovery = () => {
+  //   const navigate = useNavigate();
+
+  const handleSet = () => {
+    // vali;
+  };
+  const formik = useFormik<LoginFormT>({
+    initialValues: {
+      confirm: "",
+      password: "",
+    },
+    validationSchema: Yup.object().shape({
+      Password: Yup.string()
+        .required("Please enter a new password.")
+        .min(8, "Password must be at least 8 characters."),
+      confirm: Yup.string()
+        .oneOf([Yup.ref("newPassword"), undefined], "Passwords must match.")
+        .required("Please confirm your new password."),
+    }),
+    onSubmit: (values) => {
+      console.log("values=", values);
+      // loginUser({
+      //   body: {
+      //     email_address: values.email_address,
+      //     password: values.password,
+      //   },
+      // });
+    },
+  });
+
+  return (
+    <Box className="h-screen w-screen flex md:flex-row flex-col">
+      <AuthFrame />
+      <Box className="w-full flex justify-center md:items-center items-start h-full">
+        <FormikProvider value={formik}>
+          <Form className="h-full  justify-center md:w-1/2 w-10/12 flex flex-col">
+            <Typography variant="h5">Password Recovery</Typography>
+            <Typography variant="caption">
+              Please enter your new password
+            </Typography>
+            <Box className="flex flex-col gap-8 my-10 w-full">
+              <IconTextField
+                fullWidth
+                id="password"
+                name="password"
+                label="password"
+                type="password"
+                icon={CiMail}
+                sx={{ color: theme.palette.primary.main }}
+              />
+              <IconTextField
+                fullWidth
+                id="confirm"
+                name="confirm"
+                label="confirm"
+                type="password"
+                icon={CiMail}
+                sx={{ color: theme.palette.primary.main }}
+              />
+            </Box>
+            <Button
+              type="submit"
+              variant="contained"
+              color="inherit"
+              onClick={handleSet}
+              sx={{
+                marginTop: 2,
+                color: "white",
+                bgcolor: theme.palette.primary.main,
+                "&:hover": {
+                  backgroundColor: theme.palette.primary.dark,
+                },
+              }}
+            >
+              Set new Password{" "}
+            </Button>
+          </Form>
+        </FormikProvider>
+      </Box>
+    </Box>
+  );
+};
+
+export default PassRecovery;
