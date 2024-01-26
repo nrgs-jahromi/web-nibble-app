@@ -1,36 +1,33 @@
-import { ApiError, fetcher } from "../config";
 import {
-  QueryFunction,
-  UseQueryOptions,
-  useQuery,
+  MutationFunction,
+  useMutation,
+  useQueryClient,
 } from "@tanstack/react-query";
+import { ApiError, fetcher } from "../config";
 
 type DataT = {
   params: {
-    id: string;
+    id: number;
   };
 };
 
-type ResT = UserItem;
+type ResT = null;
 
-type QueryKey = ["addFoodToFav", DataT];
-
-const addFoodToFav: QueryFunction<ResT, QueryKey> = async ({ queryKey }) => {
+const addFoodToFav: MutationFunction<ResT, DataT> = async (data) => {
   const { data: dataRes } = await fetcher.get<ResT>(
-    `/add-fav-food/${queryKey[1].params.id}/`
+    `/add-fav-food/${data.params.id}/`
   );
   return dataRes;
 };
 
-export const useAddFoodToFav = (
-  data: DataT,
-  options:
-    | UseQueryOptions<ResT, ApiError, ResT, QueryKey>
-    | undefined = undefined
-) => {
-  return useQuery<ResT, ApiError, ResT, QueryKey>(
-    ["addFoodToFav", data],
-    addFoodToFav,
-    options
-  );
+export const useAddFoodToFav = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation<ResT, ApiError, DataT>(["addFoodToFav"], addFoodToFav, {
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ["favFoodList"],
+      });
+    },
+  });
 };

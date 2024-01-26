@@ -36,6 +36,7 @@ export const HomeFoods = () => {
           {favFoods.slice(0, 3).map((food, index) => (
             <Food
               key={index}
+              id={food.id}
               // image={food.picture}
               image={FoodImg}
               name={food.name}

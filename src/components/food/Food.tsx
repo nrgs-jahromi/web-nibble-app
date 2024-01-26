@@ -2,10 +2,15 @@ import { Box, Typography, useMediaQuery } from "@mui/material";
 import { PiMotorcycleFill } from "react-icons/pi";
 import { FaStar } from "react-icons/fa";
 import { MdOutlineRestaurant } from "react-icons/md";
-import { FC } from "react";
+import { FC, useState } from "react";
 import theme from "../../theme";
+import IconBox from "../baseComponents/IconBox";
+import { IoHeart, IoHeartOutline } from "react-icons/io5";
+import { useAddFoodToFav } from "../../api/food/addFavFood";
+import { useDeleteFoodFromFav } from "../../api/food/deleteFavFood";
 
 type Props = {
+  id: number;
   name: string;
   event: string;
   rate: number;
@@ -18,6 +23,7 @@ type Props = {
 
 export const Food: FC<Props> = ({
   name,
+  id,
   event,
   rate,
   rateNum,
@@ -28,7 +34,22 @@ export const Food: FC<Props> = ({
 }) => {
   const isMdScreen = useMediaQuery(theme.breakpoints.up("md"));
   const islgScreen = useMediaQuery(theme.breakpoints.up("lg"));
+  const [favorite, setFavorite] = useState(false);
+  // const data = { params: { id: id } };
 
+  const { isLoading: isAddingToFav, mutate: addToFav } = useAddFoodToFav();
+  const { isLoading: isDeletingFromFav, mutate: deleteFromFav } =
+    useDeleteFoodFromFav();
+
+  const onFavoriteClickHandler = () => {
+    setFavorite(!favorite);
+    // Toggle favorite status and make API call accordingly
+    if (!favorite) {
+      addToFav({ params: { id: id } });
+    } else {
+      deleteFromFav({ params: { id: id } });
+    }
+  };
   return (
     <Box
       display={"flex"}
@@ -42,16 +63,34 @@ export const Food: FC<Props> = ({
         }
       }
     >
-      <img
-        className={
-          "w-full h-[180px] object-cover rounded-xl"
-          // isMdScreen
-          // ? "w-[330px] h-[180px] object-cover rounded-xl"
-          // : "w-[100%] h-[40vw] object-cover rounded-xl"
-        }
-        src={image}
-        alt="Food Name"
-      />
+      <Box
+        className="w-full h-[180px] object-cover rounded-xl"
+        sx={{
+          display: "flex",
+          alignItems: "flex-start",
+          textAlign: "center",
+          justifyContent: "flex-end",
+          backgroundImage: `url(${image})`,
+          backgroundSize: "cover",
+          borderRadius: "16px",
+          padding: "15px",
+        }}
+      >
+        <IconBox
+          onClick={onFavoriteClickHandler}
+          icon={
+            favorite ? (
+              <IoHeart color={theme.palette.secondary.main} />
+            ) : (
+              <IoHeartOutline color="black" />
+            )
+          }
+          color={theme.palette.grey[50]}
+          size={48}
+          borderRadius="10px"
+        />
+      </Box>
+
       <Box display={"flex"} justifyContent={"space-between"}>
         <Typography variant="body1" fontWeight={"bold"}>
           {name}

@@ -1,38 +1,37 @@
-import { ApiError, fetcher } from "../config";
 import {
-  QueryFunction,
-  UseQueryOptions,
-  useQuery,
+  MutationFunction,
+  useMutation,
+  useQueryClient,
 } from "@tanstack/react-query";
+import { ApiError, fetcher } from "../config";
 
 type DataT = {
   params: {
-    id: string;
+    id: number;
   };
 };
 
-type ResT = UserItem;
+type ResT = null;
 
-type QueryKey = ["deleteFoodFromFav", DataT];
-
-const deleteFoodFromFav: QueryFunction<ResT, QueryKey> = async ({
-  queryKey,
-}) => {
+const deleteFoodFromFav: MutationFunction<ResT, DataT> = async (data) => {
   const { data: dataRes } = await fetcher.get<ResT>(
-    `/delete-fav-food/${queryKey[1].params.id}/`
+    `/delete-fav-food/${data.params.id}/`
   );
   return dataRes;
 };
 
-export const useDeleteFoodFromFav = (
-  data: DataT,
-  options:
-    | UseQueryOptions<ResT, ApiError, ResT, QueryKey>
-    | undefined = undefined
-) => {
-  return useQuery<ResT, ApiError, ResT, QueryKey>(
-    ["deleteFoodFromFav", data],
+export const useDeleteFoodFromFav = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation<ResT, ApiError, DataT>(
+    ["deleteFoodFromFav"],
     deleteFoodFromFav,
-    options
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries({
+          queryKey: ["favFoodList"],
+        });
+      },
+    }
   );
 };

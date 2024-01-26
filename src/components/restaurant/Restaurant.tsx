@@ -8,6 +8,7 @@ import { FC } from "react";
 type Props = {
   img: string;
   name: string;
+  id: number;
   rate: number;
   rateNum: string;
   food: string;
@@ -18,6 +19,7 @@ type Props = {
 
 export const Restaurant: FC<Props> = ({
   img,
+  id,
   name,
   rate,
   rateNum,

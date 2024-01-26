@@ -1,5 +1,5 @@
 import { Box, Button, useMediaQuery } from "@mui/material";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { MdOutlineStoreMallDirectory, MdRestaurant } from "react-icons/md";
 import RestaurantImg from "../../assets/RestaurantImg.png";
 import FoodImg from "../../assets/FoodImg.png";
@@ -14,6 +14,8 @@ import { generateRandomNumber } from "../../util/random";
 const FavoritePage = () => {
   const [selected, setSelected] = useState("Restaurant");
   const isMdScreen = useMediaQuery(theme.breakpoints.down("md"));
+  const [foods, setFoods] = useState<FoodT[]>();
+  const [restaurant, setRestaurant] = useState();
   const { data: favFoods, isLoading, isError } = useFavFoodList();
   const { data: favRes } = useFavRestaurantList();
   const randomNumber = generateRandomNumber();
@@ -24,141 +26,9 @@ const FavoritePage = () => {
     setSelected("Restaurant");
   };
 
-  const restaurantsData = [
-    {
-      img: RestaurantImg,
-      name: "Burger King",
-      rate: 4.2,
-      rateNum: "12,124",
-      food: "burger",
-      type: "Free Delivery",
-      distance: 4.2,
-      price: 3,
-    },
-    {
-      img: RestaurantImg,
-      name: "Burger King2",
-      rate: 3.2,
-      rateNum: "12,353",
-      food: "burger",
-      type: "Free Delivery",
-      distance: 4.2,
-      price: 3,
-    },
-    {
-      img: RestaurantImg,
-      name: "Burger King",
-      rate: 4.2,
-      rateNum: "12,124",
-      food: "burger",
-      type: "Free Delivery",
-      distance: 4.2,
-      price: 3,
-    },
-    {
-      img: RestaurantImg,
-      name: "Burger King2",
-      rate: 3.2,
-      rateNum: "12,353",
-      food: "burger",
-      type: "Free Delivery",
-      distance: 4.2,
-      price: 3,
-    },
-    {
-      img: RestaurantImg,
-      name: "Burger King",
-      rate: 4.2,
-      rateNum: "12,124",
-      food: "burger",
-      type: "Free Delivery",
-      distance: 4.2,
-      price: 3,
-    },
-    {
-      img: RestaurantImg,
-      name: "Burger King2",
-      rate: 3.2,
-      rateNum: "12,353",
-      food: "burger",
-      type: "Free Delivery",
-      distance: 4.2,
-      price: 3,
-    },
-    {
-      img: RestaurantImg,
-      name: "Burger King",
-      rate: 4.2,
-      rateNum: "12,124",
-      food: "burger",
-      type: "Free Delivery",
-      distance: 4.2,
-      price: 3,
-    },
-    {
-      img: RestaurantImg,
-      name: "Burger King2",
-      rate: 3.2,
-      rateNum: "12,353",
-      food: "burger",
-      type: "Free Delivery",
-      distance: 4.2,
-      price: 3,
-    },
-  ];
-
-  const foodsData = [
-    {
-      image: FoodImg,
-      name: "salad malad",
-      event: "Free Delivery",
-      rate: 4.8,
-      rateNum: "12,123",
-      type: "Asian",
-      minDelivery: 12,
-      maxDelivery: 15,
-    },
-    {
-      image: FoodImg,
-      name: "salad malad",
-      event: "Free Delivery",
-      rate: 4.8,
-      rateNum: "12,123",
-      type: "Asian",
-      minDelivery: 12,
-      maxDelivery: 15,
-    },
-    {
-      image: FoodImg,
-      name: "salad malad",
-      event: "Free Delivery",
-      rate: 4.8,
-      rateNum: "12,123",
-      type: "Asian",
-      minDelivery: 12,
-      maxDelivery: 15,
-    },
-    {
-      image: FoodImg,
-      name: "salad malad",
-      event: "Free Delivery",
-      rate: 4.8,
-      rateNum: "12,123",
-      type: "Asian",
-      minDelivery: 12,
-      maxDelivery: 15,
-    },
-    {
-      image: FoodImg,
-      name: "salad malad",
-      event: "Free Delivery",
-      rate: 4.8,
-      rateNum: "12,123",
-      type: "Asian",
-      minDelivery: 12,
-      maxDelivery: 15,
-    },
-  ];
+  useEffect(() => {
+    setFoods(favFoods);
+  }, [favFoods, isLoading]);
   return (
     <Box
       className="w-full flex flex-col overflow-auto gap-6"
@@ -171,7 +41,7 @@ const FavoritePage = () => {
           variant={selected === "Restaurant" ? "contained" : "outlined"}
           onClick={selectRestaurantHandler}
         >
-          Restaurants ({restaurantsData.length})
+          Restaurants ({favRes?.length})
         </Button>
         <Button
           startIcon={<MdOutlineStoreMallDirectory />}
@@ -184,10 +54,11 @@ const FavoritePage = () => {
       </Box>
       <Box className="flex flex-row flex-wrap w-full justify-start gap-y-6 gap-x-5">
         {selected === "Food"
-          ? favFoods?.length !== 0
-            ? favFoods.map((food, index) => (
+          ? foods?.length !== 0
+            ? foods.map((food, index) => (
                 <Food
                   key={index}
+                  id={food.id}
                   // image={food.picture}
                   image={FoodImg}
                   name={food.name}
@@ -203,6 +74,7 @@ const FavoritePage = () => {
           : favRes?.map((restaurant, index) => (
               <Restaurant
                 key={index}
+                id={restaurant.id}
                 img={restaurant.img}
                 name={restaurant.name}
                 rate={restaurant.rate}
