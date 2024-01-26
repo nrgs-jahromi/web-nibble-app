@@ -13,14 +13,30 @@ import { IoClose } from "react-icons/io5";
 import theme from "../../theme";
 import { CiMail } from "react-icons/ci";
 import IconBox from "../baseComponents/IconBox";
+import { useNavigate } from "react-router";
 
 type Props = {
   isOpen: boolean;
   onClose: () => void;
   mode?: "error" | "info" | "success" | "primary";
+  email: string;
+  sendEagain: () => void;
 };
 
-const ResetEmailModal: FC<Props> = ({ isOpen, onClose, mode = "primary" }) => {
+const ResetEmailModal: FC<Props> = ({
+  isOpen,
+  onClose,
+  mode = "primary",
+  email,
+  sendEagain,
+}) => {
+  const navigate = useNavigate();
+
+  const sendEgainHandler = () => {
+    onClose();
+    sendEagain();
+  };
+
   return (
     <Dialog
       maxWidth="xs"
@@ -62,7 +78,7 @@ const ResetEmailModal: FC<Props> = ({ isOpen, onClose, mode = "primary" }) => {
         <DialogContentText id="alert-dialog-description">
           We have just sent an email with a password reset link to{" "}
           <span>
-            <strong>markclarke@gmail.com</strong>
+            <strong>{email}</strong>
           </span>
           .
         </DialogContentText>
@@ -76,11 +92,13 @@ const ResetEmailModal: FC<Props> = ({ isOpen, onClose, mode = "primary" }) => {
           color={mode}
           variant="contained"
           autoFocus
-          onClick={onClose}
+          onClick={() => {
+            navigate("/passrecovery/setnew/");
+          }}
         >
           Got it
         </Button>
-        <Button fullWidth color="inherit" onClick={onClose}>
+        <Button fullWidth color="inherit" onClick={sendEgainHandler}>
           Send again
         </Button>
       </DialogActions>

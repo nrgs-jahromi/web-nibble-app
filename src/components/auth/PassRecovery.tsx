@@ -5,20 +5,24 @@ import * as Yup from "yup";
 import { CiMail } from "react-icons/ci";
 import IconTextField from "./IconTextField";
 import AuthFrame from "./AuthFrame";
-import { useNavigate } from "react-router";
-import { useState } from "react";
+import { useNavigate, useParams } from "react-router";
+import { useEffect, useState } from "react";
 import ResetEmailModal from "./ResetEmailModal";
+import { usePasswordChanging } from "../../api/auth/setPassword";
 
 type LoginFormT = {
   password: string;
   confirm: string;
 };
 const PassRecovery = () => {
-  //   const navigate = useNavigate();
+  const navigate = useNavigate();
+  const { token } = useParams();
+  const {
+    mutate: changePassword,
+    isSuccess: isChangingPasswordSuccess,
+    isError: isChangingPasswordFail,
+  } = usePasswordChanging();
 
-  const handleSet = () => {
-    // vali;
-  };
   const formik = useFormik<LoginFormT>({
     initialValues: {
       confirm: "",
@@ -34,14 +38,26 @@ const PassRecovery = () => {
     }),
     onSubmit: (values) => {
       console.log("values=", values);
-      // loginUser({
-      //   body: {
-      //     email_address: values.email_address,
-      //     password: values.password,
-      //   },
-      // });
     },
   });
+
+  const handleSet = () => {
+    // vali;
+    changePassword({
+      body: {
+        password: formik.values.password,
+      },
+      params: {
+        token: token,
+      },
+    });
+  };
+
+  useEffect(() => {
+    if (isChangingPasswordSuccess) {
+      navigate("/login/");
+    }
+  }, [isChangingPasswordSuccess]);
 
   return (
     <Box className="h-screen w-screen flex md:flex-row flex-col">

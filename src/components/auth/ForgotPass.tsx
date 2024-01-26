@@ -6,7 +6,7 @@ import { CiMail } from "react-icons/ci";
 import IconTextField from "./IconTextField";
 import AuthFrame from "./AuthFrame";
 import { useNavigate } from "react-router";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ResetEmailModal from "./ResetEmailModal";
 import { useForgotPass } from "../../api/auth/forgotPass";
 
@@ -44,15 +44,15 @@ const ForgotPass = () => {
     },
   });
 
-  const handler = () => {
+  const sendHandler = () => {
     sendmMail({
       body: {
         email: formik.values.email,
       },
     });
-
-    if (sendMailSuccessfully) setIsOpen(true);
+    setIsOpen(true);
   };
+
   return (
     <Box className="h-screen w-screen flex md:flex-row flex-col">
       <AuthFrame />
@@ -78,7 +78,7 @@ const ForgotPass = () => {
               type="submit"
               variant="contained"
               color="inherit"
-              onClick={handler}
+              onClick={sendHandler}
               sx={{
                 marginTop: 2,
                 color: "white",
@@ -93,7 +93,12 @@ const ForgotPass = () => {
           </Form>
         </FormikProvider>
       </Box>
-      <ResetEmailModal isOpen={isOpen} onClose={handleCloseModal} />
+      <ResetEmailModal
+        isOpen={isOpen}
+        onClose={handleCloseModal}
+        email={formik.values.email}
+        sendEagain={sendHandler}
+      />
     </Box>
   );
 };
