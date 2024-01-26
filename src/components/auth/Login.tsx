@@ -47,13 +47,17 @@ const Login = () => {
         password: formik.values.password,
       },
     });
+  };
+
+  useEffect(() => {
     if (
       isUserLoginError &&
       userLoginError.response?.data.error === "You are not verified!"
     ) {
       setIsOpen(true);
     }
-  };
+  }, [isUserLoginSuccess, loginData]);
+
   useEffect(() => {
     if (isUserLoginSuccess) {
       localStorage.setItem("accessToken", loginData?.token);
@@ -111,14 +115,14 @@ const Login = () => {
               variant="body2"
               sx={{ cursor: "pointer", marginTop: 2 }}
               onClick={() => {
-                navigate("/passrecovery");
+                navigate("/passrecovery/");
               }}
             >
               Forgot password?
             </Typography>
             <Button
               variant="contained"
-              onClick={() => navigate("/signup")}
+              onClick={() => navigate("/signup/")}
               sx={{
                 marginTop: 2,
               }}

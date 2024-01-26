@@ -8,7 +8,7 @@ import {
   DialogTitle,
   IconButton,
 } from "@mui/material";
-import { FC } from "react";
+import { FC, useEffect } from "react";
 import { IoClose } from "react-icons/io5";
 import theme from "../../theme";
 import { CiMail } from "react-icons/ci";
@@ -44,11 +44,15 @@ const VerifyEmailModal: FC<Props> = ({
         email: email,
       },
     });
+  };
 
+  useEffect(() => {
+    const variant: VariantType = "success";
     if (isRegisterSuccess) {
       enqueueSnackbar("This is a success message!", { variant });
     }
-  };
+  }, []);
+
   return (
     <Dialog
       maxWidth="xs"

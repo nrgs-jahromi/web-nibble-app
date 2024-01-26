@@ -16,8 +16,8 @@ const AppRoutes: FC = () => {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/login" element={<Login />} />
-        <Route path="/signup" element={<Signup />} />
+        <Route path="/login/" element={<Login />} />
+        <Route path="/signup/" element={<Signup />} />
         <Route path="/passrecovery/" element={<ForgotPass />} />
         <Route path="/passrecovery/setnew/" element={<PassRecovery />} />
 

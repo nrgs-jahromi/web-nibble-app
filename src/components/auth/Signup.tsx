@@ -8,7 +8,7 @@ import IconTextField from "./IconTextField";
 import AuthFrame from "./AuthFrame";
 import { useNavigate } from "react-router";
 import { useUserRegistration } from "../../api/auth/register";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import VerifyEmailModal from "./VerifyAlert";
 
 type SignUpFormT = {
@@ -44,10 +44,14 @@ const SignUp = () => {
         password: formik.values.password,
       },
     });
+  };
+
+  useEffect(() => {
     if (isRegisterSuccess) {
       setOpenVerifyModal(true);
     }
-  };
+  }, [isRegisterSuccess]);
+
   return (
     <Box className="h-screen w-screen flex md:flex-row flex-col">
       <AuthFrame />
