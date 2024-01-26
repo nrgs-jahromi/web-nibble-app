@@ -29,11 +29,9 @@ const PassRecovery = () => {
       password: "",
     },
     validationSchema: Yup.object().shape({
-      Password: Yup.string()
-        .required("Please enter a new password.")
-        .min(8, "Password must be at least 8 characters."),
+      password: Yup.string().required("Please enter a new password."),
       confirm: Yup.string()
-        .oneOf([Yup.ref("newPassword"), undefined], "Passwords must match.")
+        .oneOf([Yup.ref("password"), undefined], "Passwords must match.")
         .required("Please confirm your new password."),
     }),
     onSubmit: (values) => {
@@ -42,15 +40,17 @@ const PassRecovery = () => {
   });
 
   const handleSet = () => {
-    // vali;
-    changePassword({
-      body: {
-        password: formik.values.password,
-      },
-      params: {
-        token: token,
-      },
-    });
+    if (formik.isValid) {
+      // Only make the API call if the form is valid
+      changePassword({
+        body: {
+          password: formik.values.password,
+        },
+        params: {
+          token: token,
+        },
+      });
+    }
   };
 
   useEffect(() => {
@@ -94,6 +94,7 @@ const PassRecovery = () => {
               variant="contained"
               color="inherit"
               onClick={handleSet}
+              disabled={!formik.isValid}
               sx={{
                 marginTop: 2,
                 color: "white",
@@ -103,7 +104,7 @@ const PassRecovery = () => {
                 },
               }}
             >
-              Set new Password{" "}
+              Set new Password
             </Button>
           </Form>
         </FormikProvider>
