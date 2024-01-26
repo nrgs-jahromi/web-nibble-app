@@ -6,10 +6,12 @@ import { CiMail } from "react-icons/ci";
 import { FaKey } from "react-icons/fa";
 import IconTextField from "./IconTextField";
 import AuthFrame from "./AuthFrame";
-import { useNavigate } from "react-router";
+import { useNavigate, useParams } from "react-router";
 import { useUserLogin } from "../../api/auth/loginUser";
 import { useEffect, useState } from "react";
 import VerifyEmailModal from "./VerifyAlert";
+import { useEmailVerification } from "../../api/auth/verifyEmail";
+import { url } from "inspector";
 
 type LoginFormT = {
   email: string;
@@ -17,6 +19,9 @@ type LoginFormT = {
 };
 const Login = () => {
   const navigate = useNavigate();
+  const { token } = useParams();
+  // 'token' variable contains the decoded token
+  console.log("Decoded token:", token);
   const [isOpen, setIsOpen] = useState(false);
   const {
     mutate: loginUser,
@@ -57,6 +62,21 @@ const Login = () => {
       setIsOpen(true);
     }
   }, [isUserLoginSuccess, loginData]);
+
+  const { isSuccess: isUserInfoSuccess } = useEmailVerification({
+    params: { token: token },
+  });
+  useEffect(() => {
+    // const currentUrl = window.location.href;
+    // const urlParams = new URLSearchParams(currentUrl);
+    // const urlToken = urlParams.get("token");
+
+    if (token) {
+      // اجرای درخواست تأیید ایمیل با استفاده از React Query
+
+      console.log("::::", token);
+    }
+  }, []);
 
   useEffect(() => {
     if (isUserLoginSuccess) {
