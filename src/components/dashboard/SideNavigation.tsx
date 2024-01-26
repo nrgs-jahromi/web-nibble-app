@@ -9,7 +9,7 @@ import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
-import { Typography, useMediaQuery } from "@mui/material";
+import { IconButton, Typography, useMediaQuery } from "@mui/material";
 import { GoHome, GoBookmark, GoListUnordered } from "react-icons/go";
 import { IoSettingsOutline } from "react-icons/io5";
 import { BiCategory } from "react-icons/bi";
@@ -19,6 +19,9 @@ import profile from "../../assets/profile.png";
 import { useNavigate } from "react-router";
 import Advertize from "../brand/Advertize";
 import { useUserInfo } from "../../api/profile/profileInformation";
+import { FiLogIn, FiLogOut } from "react-icons/fi";
+import { enqueueSnackbar } from "notistack";
+import { useUserLogout } from "../../api/auth/logout";
 
 const drawerWidth = 304;
 
@@ -148,20 +151,22 @@ export default function SideNavigation() {
   const handleDrawerClose = () => {
     setOpen(!open);
   };
-  // const handleMouseEnter = () => {
-  //   if (!isLargeScreen) {
-  //     setOpen(true);
-  //   }
-  // };
 
-  // const handleMouseLeave = () => {
-  //   if (!isLargeScreen) {
-  //     setOpen(false);
-  //   }
-  // };
-  // const handleMouseDown = (event: React.MouseEvent<HTMLButtonElement>) => {
-  //   event.preventDefault();
-  // };
+  const { mutate: logout, isSuccess: logoutSuccessfully } = useUserLogout();
+
+  const handleLogout = () => {
+    logout();
+  };
+  const handleLogIn = () => {
+    navigate("/login/");
+  };
+  useEffect(() => {
+    if (logoutSuccessfully) {
+      window.localStorage.removeItem("accessToken");
+      window.localStorage.removeItem("userId");
+      navigate("/login/");
+    }
+  }, [logoutSuccessfully]);
 
   useEffect(() => {
     if (isLargeScreen) {
@@ -234,20 +239,40 @@ export default function SideNavigation() {
         <Box className="w-full flex justify-center mt-3">
           {open && <Advertize />}
         </Box>
-        <Box
-          onClick={handleDrawerClose}
-          className="flex flex-row gap-2 absolute bottom-9"
-        >
-          <img src={profile} />
-          <Box>
-            <Typography variant="body1" sx={{ opacity: open ? 1 : 0 }}>
-              {userInfo?.full_name}
-            </Typography>
-            <Typography variant="caption" sx={{ opacity: open ? 1 : 0 }}>
-              {userInfo?.email}
-            </Typography>
+        {userId !== 0 ? (
+          <Box
+            // onClick={handleDrawerClose}
+            className="flex w-full flex-row gap-2 absolute bottom-9"
+          >
+            <img src={profile} />
+            <Box>
+              <Typography variant="body1" sx={{ opacity: open ? 1 : 0 }}>
+                {userInfo?.full_name}
+              </Typography>
+              <Typography variant="caption" sx={{ opacity: open ? 1 : 0 }}>
+                {userInfo?.email}
+              </Typography>
+            </Box>
+            <IconButton onClick={handleLogout}>
+              <FiLogOut />
+            </IconButton>
           </Box>
-        </Box>
+        ) : (
+          <Box
+            onClick={handleLogIn}
+            // onClick={handleDrawerClose}
+            className="flex w-full flex-row gap-2 absolute bottom-9 items-center"
+          >
+            <IconButton>
+              <FiLogIn />
+            </IconButton>
+            <Box>
+              <Typography variant="body1" sx={{ opacity: open ? 1 : 0 }}>
+                Login
+              </Typography>
+            </Box>
+          </Box>
+        )}
       </Drawer>
     </Box>
   );
