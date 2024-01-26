@@ -7,11 +7,16 @@ import FoodImg from "../../assets/FoodImg.png";
 import { Food } from "../food/Food";
 import { Restaurant } from "../restaurant/Restaurant";
 import theme from "../../theme";
+import { useFavFoodList } from "../../api/food/getAllFavFood";
+import { useFavRestaurantList } from "../../api/restaurant/getAllFavRes";
+import { generateRandomNumber } from "../../util/random";
 
 const FavoritePage = () => {
   const [selected, setSelected] = useState("Restaurant");
   const isMdScreen = useMediaQuery(theme.breakpoints.down("md"));
-
+  const { data: favFoods, isLoading, isError } = useFavFoodList();
+  const { data: favRes } = useFavRestaurantList();
+  const randomNumber = generateRandomNumber();
   const selectFoodHandler = () => {
     setSelected("Food");
   };
@@ -174,31 +179,34 @@ const FavoritePage = () => {
           variant={selected === "Food" ? "contained" : "outlined"}
           onClick={selectFoodHandler}
         >
-          Dishes ({foodsData.length})
+          Dishes ({favFoods?.length})
         </Button>
       </Box>
       <Box className="flex flex-row flex-wrap w-full justify-start gap-y-6 gap-x-5">
         {selected === "Food"
-          ? foodsData.map((food, index) => (
-              <Food
-                key={index}
-                image={food.image}
-                name={food.name}
-                event={food.event}
-                rate={food.rate}
-                rateNum={food.rateNum}
-                type={food.type}
-                minDelivery={food.minDelivery}
-                maxDelivery={food.maxDelivery}
-              />
-            ))
-          : restaurantsData.map((restaurant, index) => (
+          ? favFoods?.length !== 0
+            ? favFoods.map((food, index) => (
+                <Food
+                  key={index}
+                  // image={food.picture}
+                  image={FoodImg}
+                  name={food.name}
+                  event={"free Delivery"}
+                  rate={food.rate}
+                  rateNum={randomNumber * (index + 1)}
+                  type={food.category}
+                  minDelivery={food.prepare_time}
+                  maxDelivery={food.prepare_time + 10}
+                />
+              ))
+            : "no favorite food has selected"
+          : favRes?.map((restaurant, index) => (
               <Restaurant
                 key={index}
                 img={restaurant.img}
                 name={restaurant.name}
                 rate={restaurant.rate}
-                rateNum={restaurant.rateNum}
+                rateNum={randomNumber * (index + 1)}
                 food={restaurant.food}
                 type={restaurant.type}
                 distance={restaurant.distance}
