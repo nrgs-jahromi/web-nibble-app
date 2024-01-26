@@ -75,14 +75,15 @@ const FavoritePage = () => {
               <Restaurant
                 key={index}
                 id={restaurant.id}
-                img={restaurant.img}
+                // img={restaurant.img}
+                img={RestaurantImg}
                 name={restaurant.name}
                 rate={restaurant.rate}
                 rateNum={randomNumber * (index + 1)}
-                food={restaurant.food}
-                type={restaurant.type}
-                distance={restaurant.distance}
-                price={restaurant.price}
+                food={restaurant.category}
+                type={restaurant.features[0].name}
+                distance={restaurant.city}
+                price={restaurant.price_rating}
               />
             ))}
       </Box>

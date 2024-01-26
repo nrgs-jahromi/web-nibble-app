@@ -27,7 +27,10 @@ const AppRoutes: FC = () => {
           <Route path="home" element={<HomePage />} />
           <Route path="home/:category" element={<CategoryPage />} />
           <Route path="favorites" element={<FavoritePage />} />
-          <Route path="restaurant" element={<RestaurantPage />} />
+          <Route
+            path="restaurant/:restaurantid?/"
+            element={<RestaurantPage />}
+          />
         </Route>
       </Routes>
     </BrowserRouter>

@@ -4,6 +4,7 @@ import { MdOutlineRestaurant } from "react-icons/md";
 import { RiMoneyDollarBoxLine } from "react-icons/ri";
 import { TbCurrentLocation } from "react-icons/tb";
 import { FC } from "react";
+import { useNavigate } from "react-router";
 
 type Props = {
   img: string;
@@ -30,8 +31,15 @@ export const Restaurant: FC<Props> = ({
 }) => {
   const currencySymbol: string = "$";
   const displayPrice = currencySymbol.repeat(price);
+  const navigate = useNavigate();
   return (
-    <Box sx={{ display: "flex", width: "336px", alignItems: "center" }} gap={1}>
+    <Box
+      sx={{ display: "flex", width: "336px", alignItems: "center" }}
+      gap={1}
+      onClick={() => {
+        navigate(`/restaurant/${id}/`);
+      }}
+    >
       <Box
         sx={{
           width: "84px",
@@ -84,7 +92,7 @@ export const Restaurant: FC<Props> = ({
           </span>
           <Box display={"flex"} alignItems={"center"} gap={0.5}>
             <TbCurrentLocation color="rgb(156, 163, 175)" />
-            <span className="text-xs text-gray-400">{distance}km</span>
+            <span className="text-xs text-gray-400">{distance}</span>
           </Box>
         </Box>
       </Box>
