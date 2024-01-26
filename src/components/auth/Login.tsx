@@ -11,7 +11,6 @@ import { useUserLogin } from "../../api/auth/loginUser";
 import { useEffect, useState } from "react";
 import VerifyEmailModal from "./VerifyAlert";
 import { useEmailVerification } from "../../api/auth/verifyEmail";
-import { url } from "inspector";
 
 type LoginFormT = {
   email: string;
@@ -61,7 +60,7 @@ const Login = () => {
     ) {
       setIsOpen(true);
     }
-  }, [isUserLoginSuccess, loginData]);
+  }, [isUserLoginSuccess, isUserLoginError, loginData]);
 
   const { isSuccess: isUserInfoSuccess } = useEmailVerification({
     params: { token: token },
@@ -156,6 +155,7 @@ const Login = () => {
         isOpen={isOpen}
         onClose={() => setIsOpen(false)}
         email={formik.values.email}
+        title={"You are not verified!"}
       />
     </Box>
   );

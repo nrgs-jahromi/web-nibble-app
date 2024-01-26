@@ -21,10 +21,12 @@ import {
   enqueueSnackbar,
   useSnackbar,
 } from "notistack";
+import { useVerifyRequest } from "../../api/auth/verifyEmailRequest";
 
 type Props = {
   isOpen: boolean;
   email: string;
+  title?: string;
   onClose: () => void;
   mode?: "error" | "info" | "success" | "primary";
 };
@@ -32,23 +34,25 @@ type Props = {
 const VerifyEmailModal: FC<Props> = ({
   isOpen,
   onClose,
+  title,
   mode = "primary",
   email,
 }) => {
   const navigate = useNavigate();
-  const { mutate: register, isSuccess: isRegisterSuccess } =
-    useUserRegistration();
+  const { mutate: sendRequestMail, isSuccess: sendRequestMailSuccessfully } =
+    useVerifyRequest();
   const onResendClick = (variant: VariantType) => () => {
-    register({
+    sendRequestMail({
       body: {
         email: email,
       },
     });
+    onClose;
   };
 
   useEffect(() => {
     const variant: VariantType = "success";
-    if (isRegisterSuccess) {
+    if (sendRequestMailSuccessfully) {
       enqueueSnackbar("This is a success message!", { variant });
     }
   }, []);
@@ -87,7 +91,7 @@ const VerifyEmailModal: FC<Props> = ({
             icon={<CiMail />}
           />
         </Box>
-        Reset email sent
+        {title ? title : "Reset email sent"}
       </DialogTitle>
 
       <DialogContent className="flex justify-center sm:w-96 w-72">
