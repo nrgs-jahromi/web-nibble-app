@@ -10,7 +10,7 @@ import { useAddFoodToFav } from "../../api/food/addFavFood";
 import { useDeleteFoodFromFav } from "../../api/food/deleteFavFood";
 
 type Props = {
-  id: number;
+  id?: number;
   name: string;
   event: string;
   rate: number;

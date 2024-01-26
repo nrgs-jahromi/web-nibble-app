@@ -9,7 +9,7 @@ import {
   IconButton,
   TextField,
 } from "@mui/material";
-import { ChangeEvent, FC, useState } from "react";
+import { ChangeEvent, FC, useEffect, useState } from "react";
 import { IoClose } from "react-icons/io5";
 import theme from "../../theme";
 import {
@@ -22,6 +22,7 @@ import { useUserInfo } from "../../api/profile/profileInformation";
 import profileDefault from "../../assets/profile.png";
 import IconBox from "../baseComponents/IconBox";
 import { useProfileUpdate } from "../../api/profile/updateProfile";
+import { useFileUploading } from "../../api/profile/uploadFile";
 
 type Props = {
   isOpen: boolean;
@@ -38,32 +39,53 @@ const PersonalInfoModal: FC<Props> = ({ isOpen, onClose }) => {
   const [phone, setPhone] = useState<string>(userInfo?.phone);
   const [picture, setPicture] = useState<string>(userInfo?.picture);
 
-  // const [profileImage, setProfileImage] = useState(profileDefault);
   const { mutate: updateProfileMutation } = useProfileUpdate();
 
   const [selectedFile, setSelectedFile] = useState<File | undefined>(undefined);
   const [previewUrl, setPreviewUrl] = useState<string | undefined>(undefined);
+  const {
+    mutate: uploadFile,
+    isSuccess: uploadedFileSuccess,
+    data: uploadedFileData,
+  } = useFileUploading();
 
-  const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files && event.target.files[0];
-
-    if (file && file.type.startsWith("image/")) {
-      setSelectedFile(file);
-
-      // Generate a data URL for the preview
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setPreviewUrl(reader.result as string);
-        setPicture(reader.result as string); // Move this line here
-      };
-      reader.readAsDataURL(file);
-    } else {
-      // Reset selected file and preview if not an image
-      setSelectedFile(undefined);
-      setPreviewUrl(undefined);
-      alert("Please select a valid image file.");
+  const handleImageChange = (e: any) => {
+    const file = e.target.files[0];
+    const formDate = new FormData();
+    formDate.append("picture", file);
+    formDate.append("file_type", "image");
+    if (file && userId) {
+      uploadFile({ params: { id: userId }, body: formDate });
     }
   };
+
+  useEffect(() => {
+    if (uploadedFileSuccess) {
+      setSelectedFile(uploadedFileData);
+      setPreviewUrl("http://127.0.0.1:8000" + uploadedFileData.image_path);
+    }
+  }, [uploadedFileSuccess, uploadedFileData]);
+
+  // const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
+  //   const file = event.target.files && event.target.files[0];
+
+  //   if (file && file.type.startsWith("image/")) {
+  //     setSelectedFile(file);
+
+  //     // Generate a data URL for the preview
+  //     const reader = new FileReader();
+  //     reader.onloadend = () => {
+  //       setPreviewUrl(reader.result as string);
+  //       setPicture(reader.result as string); // Move this line here
+  //     };
+  //     reader.readAsDataURL(file);
+  //   } else {
+  //     // Reset selected file and preview if not an image
+  //     setSelectedFile(undefined);
+  //     setPreviewUrl(undefined);
+  //     alert("Please select a valid image file.");
+  //   }
+  // };
 
   const handleUpload = () => {
     // Handle the upload logic here using the selectedFile
@@ -80,7 +102,7 @@ const PersonalInfoModal: FC<Props> = ({ isOpen, onClose }) => {
       <input
         type="file"
         hidden
-        onChange={handleFileChange}
+        onChange={handleImageChange}
         accept="image/*"
         multiple={false}
       />
@@ -123,7 +145,13 @@ const PersonalInfoModal: FC<Props> = ({ isOpen, onClose }) => {
           </DialogContentText>
           <Box className="flex flex-row justify-between w-full gap-4">
             <img
-              src={selectedFile ? previewUrl : profileDefault}
+              src={
+                selectedFile
+                  ? previewUrl
+                  : userInfo?.picture
+                  ? userInfo.picture
+                  : profileDefault
+              }
               alt="profileImg"
               className="rounded-full h-12 w-12 "
             />
@@ -166,7 +194,7 @@ const PersonalInfoModal: FC<Props> = ({ isOpen, onClose }) => {
               label="FULL NAME"
               placeholder="enter your full name"
               defaultValue={userInfo?.full_name}
-              value={fullName} // استفاده از مقدار fullName به جای defaultValue={userInfo?.full_name}
+              value={fullName}
               onChange={(event) => setFullName(event.target.value)}
               InputLabelProps={{
                 shrink: true,
@@ -186,7 +214,7 @@ const PersonalInfoModal: FC<Props> = ({ isOpen, onClose }) => {
               label="EMAIL ADDRESS"
               placeholder="enter your email"
               defaultValue={userInfo?.email}
-              value={email} // استفاده از مقدار fullName به جای defaultValue={userInfo?.full_name}
+              value={email}
               onChange={(event) => setEmail(event.target.value)}
               InputLabelProps={{
                 shrink: true,
@@ -206,7 +234,7 @@ const PersonalInfoModal: FC<Props> = ({ isOpen, onClose }) => {
               label="PHONE NUMBER"
               placeholder="enter your phone number"
               defaultValue={userInfo?.phone}
-              value={phone} // استفاده از مقدار fullName به جای defaultValue={userInfo?.full_name}
+              value={phone}
               onChange={(event) => setPhone(event.target.value)}
               InputLabelProps={{
                 shrink: true,
@@ -221,15 +249,14 @@ const PersonalInfoModal: FC<Props> = ({ isOpen, onClose }) => {
           variant="contained"
           onClick={() => {
             updateProfileMutation({
-              // Pass updated profile data to the mutation function
               body: {
-                full_name: fullName, // Update with actual value
-                email: email, // Update with actual value
-                phone: phone, // Update with actual value
-                picture: picture, // Update with actual value
+                full_name: fullName,
+                email: email,
+                phone: phone,
+                picture: uploadedFileData?.file,
               },
             });
-            onClose(); // Close the modal after updating profile
+            onClose();
           }}
         >
           Update profile

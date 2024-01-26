@@ -93,3 +93,9 @@ type CartT = {
   discount_price: number;
   total_price_after_discount: number;
 };
+
+type FileT = {
+  id: number;
+  file: string;
+  file_type: string;
+};

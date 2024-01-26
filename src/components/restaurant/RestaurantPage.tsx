@@ -10,8 +10,11 @@ import { TbCurrentLocation } from "react-icons/tb";
 import { RiMoneyDollarBoxLine } from "react-icons/ri";
 import { useState } from "react";
 import { Food } from "../food/Food";
+import { useParams } from "react-router";
+import { useRestaurantInformation } from "../../api/restaurant/getRestaurantInfo";
 const RestaurantPage = () => {
   const [favorite, setFavorite] = useState(false);
+  const param = useParams();
   const foodsData = [
     {
       image: FoodImg,
@@ -95,7 +98,11 @@ const RestaurantPage = () => {
     },
   ];
   const [selectedType, setSelectedType] = useState("All"); // default selection
-
+  const {
+    data: restaurantInfo,
+    isLoading,
+    isError,
+  } = useRestaurantInformation({ params: { id: param.restaurantid } });
   const handleTypeSelection = (type: any) => {
     setSelectedType(type);
   };
@@ -131,7 +138,7 @@ const RestaurantPage = () => {
           alignItems: "flex-start",
           textAlign: "center",
           justifyContent: "flex-end",
-          backgroundImage: `url(${FoodImg})`,
+          backgroundImage: `url(${restaurantInfo?.background_pic})`,
           backgroundSize: "cover",
           borderRadius: "16px",
           padding: "15px",
@@ -156,7 +163,7 @@ const RestaurantPage = () => {
         />
       </Box>
       <img
-        src={logoImg}
+        src={restaurantInfo?.icon}
         height={"80px"}
         width={"80px"}
         style={{ marginTop: "-50px" }}
@@ -166,23 +173,18 @@ const RestaurantPage = () => {
         <Box className="flex w-full justify-between flex-col md:flex-row">
           <Box className="mb-4">
             <Typography variant="h6" fontWeight={"bold"}>
-              Burger King
+              {restaurantInfo?.name}
             </Typography>
             <Typography variant="body2">
-              It is one of the most iconic and well-recognizable fast food
-              restaurants out there which offers really amazing food and drinks.
+              {restaurantInfo?.description}
             </Typography>
           </Box>
           <Box className="flex  w-fit gap-5 justify-between mb-4">
-            <span className="text-xs  min-w-fit h-fit bg-[#503E9D1A] text-[#503E9D] padding px-2 py-1 rounded-md">
-              Free Delivery
-            </span>
-            <span className="text-xs  min-w-fit h-fit bg-[#503E9D1A] text-[#503E9D] padding px-2 py-1  rounded-md">
-              Free Delivery
-            </span>
-            <span className="text-xs  min-w-fit h-fit  bg-[#503E9D1A] text-[#503E9D] padding px-2 py-1 rounded-md">
-              Free Delivery
-            </span>
+            {restaurantInfo?.features.map((feature) => (
+              <span className="text-xs  min-w-fit h-fit bg-[#503E9D1A] text-[#503E9D] padding px-2 py-1 rounded-md">
+                {feature.name}
+              </span>
+            ))}
           </Box>
         </Box>
         <Box
@@ -194,21 +196,25 @@ const RestaurantPage = () => {
         >
           <Box display={"flex"} alignItems={"center"} gap={0.5}>
             <FaStar className="text-yellow-300" />
-            <span className="text-xs font-bold">4.8</span>
+            <span className="text-xs font-bold">{restaurantInfo?.rate}</span>
             <span className="text-xs text-gray-400">(1,873)</span>
           </Box>
           <Box display={"flex"} alignItems={"center"} gap={0.5}>
             <MdOutlineRestaurant color="rgb(156, 163, 175)" />
-            <span className="text-xs text-gray-400">Burger</span>
+            <span className="text-xs text-gray-400">
+              {restaurantInfo?.category}
+            </span>
           </Box>
           <Box display={"flex"} alignItems={"center"} gap={0.5}>
             <RiMoneyDollarBoxLine color="rgb(156, 163, 175)" />
-            <span className="text-xs text-gray-400">$</span>
+            <span className="text-xs text-gray-400">
+              {restaurantInfo?.price_rating}$
+            </span>
           </Box>
           <Box display={"flex"} alignItems={"center"} gap={0.5}>
             <TbCurrentLocation color="rgb(156, 163, 175)" />
             <span className="text-xs text-gray-400">
-              4,2 km(4,3 km (Irving St, San Francisco, California))
+              {restaurantInfo?.address}
             </span>
           </Box>
         </Box>
@@ -261,6 +267,7 @@ const RestaurantPage = () => {
           {filteredFoods.map((food, index) => (
             <Food
               key={index}
+              // id={food.id}
               image={food.image}
               name={food.name}
               event={food.event}
