@@ -9,13 +9,9 @@ import {
   IconButton,
   TextField,
 } from "@mui/material";
-import { FC } from "react";
+import { ChangeEvent, FC, useState } from "react";
 import { IoClose } from "react-icons/io5";
 import theme from "../../theme";
-import { CiMail, CiUser } from "react-icons/ci";
-import IconBox from "../baseComponents/IconBox";
-import profileDefault from "../../assets/profile.png";
-import IconTextField from "../auth/IconTextField";
 import {
   MdMailOutline,
   MdPerson,
@@ -23,6 +19,10 @@ import {
   MdPhone,
 } from "react-icons/md";
 import { useUserInfo } from "../../api/profile/profileInformation";
+import profileDefault from "../../assets/profile.png";
+import IconBox from "../baseComponents/IconBox";
+import { useProfileUpdate } from "../../api/profile/updateProfile";
+
 type Props = {
   isOpen: boolean;
   onClose: () => void;
@@ -33,7 +33,59 @@ const PersonalInfoModal: FC<Props> = ({ isOpen, onClose }) => {
   const { data: userInfo, isSuccess: isUserInfoSuccess } = useUserInfo({
     body: { id: userId },
   });
+  const [fullName, setFullName] = useState<String>(userInfo?.full_name);
+  const [email, setEmail] = useState<string>(userInfo?.email);
+  const [phone, setPhone] = useState<string>(userInfo?.phone);
+  const [picture, setPicture] = useState<string>(userInfo?.picture);
 
+  // const [profileImage, setProfileImage] = useState(profileDefault);
+  const { mutate: updateProfileMutation } = useProfileUpdate();
+
+  const [selectedFile, setSelectedFile] = useState<File | undefined>(undefined);
+  const [previewUrl, setPreviewUrl] = useState<string | undefined>(undefined);
+
+  const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files && event.target.files[0];
+
+    if (file && file.type.startsWith("image/")) {
+      setSelectedFile(file);
+
+      // Generate a data URL for the preview
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setPreviewUrl(reader.result as string);
+        setPicture(reader.result as string); // Move this line here
+      };
+      reader.readAsDataURL(file);
+    } else {
+      // Reset selected file and preview if not an image
+      setSelectedFile(undefined);
+      setPreviewUrl(undefined);
+      alert("Please select a valid image file.");
+    }
+  };
+
+  const handleUpload = () => {
+    // Handle the upload logic here using the selectedFile
+    if (selectedFile) {
+      console.log("Uploading:", selectedFile);
+      // You can use FormData to send the file to the server, make an API call, etc.
+    } else {
+      console.log("No file selected");
+    }
+  };
+
+  const uploadButton = () => {
+    return (
+      <input
+        type="file"
+        hidden
+        onChange={handleFileChange}
+        accept="image/*"
+        multiple={false}
+      />
+    );
+  };
   return (
     <Dialog
       maxWidth="xs"
@@ -64,17 +116,35 @@ const PersonalInfoModal: FC<Props> = ({ isOpen, onClose }) => {
         Personal information
       </DialogTitle>
 
-      <DialogContent className="flex flex-col  gap-10 justify-start sm:w-96 w-72">
+      <DialogContent className="flex flex-col gap-10 justify-start sm:w-96 w-72">
         <Box className="flex w-full flex-col gap-8 ">
           <DialogContentText id="alert-dialog-description">
             Profile image
           </DialogContentText>
           <Box className="flex flex-row justify-between w-full gap-4">
-            <img src={profileDefault} alt="profileImg" />
-            <Button variant="contained" fullWidth>
+            <img
+              src={selectedFile ? previewUrl : profileDefault}
+              alt="profileImg"
+              className="rounded-full h-12 w-12 "
+            />
+
+            <Button
+              variant="contained"
+              fullWidth
+              component="label"
+              onClick={handleUpload}
+            >
+              {uploadButton()}
               Upload
             </Button>
-            <Button variant="outlined" fullWidth>
+            <Button
+              variant="outlined"
+              fullWidth
+              onClick={() => {
+                setPreviewUrl(undefined);
+                setSelectedFile(undefined);
+              }}
+            >
               Delete
             </Button>
           </Box>
@@ -96,6 +166,8 @@ const PersonalInfoModal: FC<Props> = ({ isOpen, onClose }) => {
               label="FULL NAME"
               placeholder="enter your full name"
               defaultValue={userInfo?.full_name}
+              value={fullName} // استفاده از مقدار fullName به جای defaultValue={userInfo?.full_name}
+              onChange={(event) => setFullName(event.target.value)}
               InputLabelProps={{
                 shrink: true,
               }}
@@ -114,6 +186,8 @@ const PersonalInfoModal: FC<Props> = ({ isOpen, onClose }) => {
               label="EMAIL ADDRESS"
               placeholder="enter your email"
               defaultValue={userInfo?.email}
+              value={email} // استفاده از مقدار fullName به جای defaultValue={userInfo?.full_name}
+              onChange={(event) => setEmail(event.target.value)}
               InputLabelProps={{
                 shrink: true,
               }}
@@ -132,6 +206,8 @@ const PersonalInfoModal: FC<Props> = ({ isOpen, onClose }) => {
               label="PHONE NUMBER"
               placeholder="enter your phone number"
               defaultValue={userInfo?.phone}
+              value={phone} // استفاده از مقدار fullName به جای defaultValue={userInfo?.full_name}
+              onChange={(event) => setPhone(event.target.value)}
               InputLabelProps={{
                 shrink: true,
               }}
@@ -140,7 +216,22 @@ const PersonalInfoModal: FC<Props> = ({ isOpen, onClose }) => {
         </Box>
       </DialogContent>
       <DialogActions sx={{ padding: "20px 24px" }}>
-        <Button fullWidth variant="contained" onClick={onClose}>
+        <Button
+          fullWidth
+          variant="contained"
+          onClick={() => {
+            updateProfileMutation({
+              // Pass updated profile data to the mutation function
+              body: {
+                full_name: fullName, // Update with actual value
+                email: email, // Update with actual value
+                phone: phone, // Update with actual value
+                picture: picture, // Update with actual value
+              },
+            });
+            onClose(); // Close the modal after updating profile
+          }}
+        >
           Update profile
         </Button>
       </DialogActions>
