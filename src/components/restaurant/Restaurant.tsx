@@ -13,7 +13,7 @@ type Props = {
   rate: number;
   rateNum: string;
   food: string;
-  type: string;
+  type?: string;
   price: number;
   distance: number;
 };
@@ -87,9 +87,11 @@ export const Restaurant: FC<Props> = ({
           </Box>
         </Box>
         <Box display="flex" gap={1}>
-          <span className="text-xs bg-[#503E9D1A] text-[#503E9D] padding px-2 py-1 rounded-md">
-            {type}
-          </span>
+          {type !== undefined && (
+            <span className="text-xs bg-[#503E9D1A] text-[#503E9D] padding px-2 py-1 rounded-md">
+              {type}
+            </span>
+          )}
           <Box display={"flex"} alignItems={"center"} gap={0.5}>
             <TbCurrentLocation color="rgb(156, 163, 175)" />
             <span className="text-xs text-gray-400">{distance}</span>
