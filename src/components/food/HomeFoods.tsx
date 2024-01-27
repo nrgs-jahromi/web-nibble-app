@@ -5,10 +5,11 @@ import FoodImg from "../../assets/FoodImg.png";
 import { Food } from "./Food";
 import { useFavFoodList } from "../../api/food/getAllFavFood";
 import { generateRandomNumber } from "../../util/random";
+import { useFoodsList } from "../../api/food/getAllFoods";
 
 export const HomeFoods = () => {
   // Use the useFavFoodList hook to fetch data
-  const { data: favFoods, isLoading, isError } = useFavFoodList();
+  const { data: favFoods, isLoading, isError } = useFoodsList();
   const randomNumber = generateRandomNumber();
 
   return (
