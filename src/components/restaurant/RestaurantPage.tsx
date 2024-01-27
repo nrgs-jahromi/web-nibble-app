@@ -12,9 +12,26 @@ import { useState } from "react";
 import { Food } from "../food/Food";
 import { useParams } from "react-router";
 import { useRestaurantInformation } from "../../api/restaurant/getRestaurantInfo";
+import { useAddRestToFav } from "../../api/restaurant/addFavRes";
+import { useDeleteRestFromFav } from "../../api/restaurant/deleteFavRes";
 const RestaurantPage = () => {
   const [favorite, setFavorite] = useState(false);
+
   const param = useParams();
+
+  const { isLoading: isAddingToFav, mutate: addToFav } = useAddRestToFav();
+  const { isLoading: isDeletingFromFav, mutate: deleteFromFav } =
+    useDeleteRestFromFav();
+
+  const onFavoriteClickHandler = () => {
+    setFavorite(!favorite);
+    // Toggle favorite status and make API call accordingly
+    if (!favorite) {
+      addToFav({ params: { id: param.restaurantid } });
+    } else {
+      deleteFromFav({ params: { id: param.restaurantid } });
+    }
+  };
   const foodsData = [
     {
       image: FoodImg,
@@ -121,9 +138,7 @@ const RestaurantPage = () => {
       ? foodsData.filter((food) => food.rate >= 4).length
       : foodsData.filter((food) => food.type === type).length;
   };
-  const onFavoriteClickHandler = () => {
-    setFavorite(!favorite);
-  };
+
   return (
     <Box
       className="w-full flex items-center flex-col overflow-auto"

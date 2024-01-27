@@ -42,7 +42,7 @@ const DashboardHeader = () => {
     },
   ];
   return (
-    <Box className="w-full h-10 flex flex-rows justify-between gap-8">
+    <Box className="w-full h-10 flex flex-rows justify-between md:gap-8">
       {isMdScreen ? (
         <Box className="flex flex-row justify-between w-1/2">
           {filters.map((item, index) => (

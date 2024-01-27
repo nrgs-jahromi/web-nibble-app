@@ -15,9 +15,9 @@ const FavoritePage = () => {
   const [selected, setSelected] = useState("Restaurant");
   const isMdScreen = useMediaQuery(theme.breakpoints.down("md"));
   const [foods, setFoods] = useState<FoodT[]>();
-  const [restaurant, setRestaurant] = useState();
+  const [restaurant, setRestaurant] = useState<RestaurantT[]>();
   const { data: favFoods, isLoading, isError } = useFavFoodList();
-  const { data: favRes } = useFavRestaurantList();
+  const { data: favRes, isLoading: loadingFavRes } = useFavRestaurantList();
   const randomNumber = generateRandomNumber();
   const selectFoodHandler = () => {
     setSelected("Food");
@@ -25,6 +25,10 @@ const FavoritePage = () => {
   const selectRestaurantHandler = () => {
     setSelected("Restaurant");
   };
+
+  useEffect(() => {
+    setRestaurant(favRes);
+  }, [favFoods, loadingFavRes]);
 
   useEffect(() => {
     setFoods(favFoods);

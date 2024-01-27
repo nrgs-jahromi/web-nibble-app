@@ -1,26 +1,33 @@
-import { ApiError, fetcher } from "../../config";
-import { QueryFunction, UseQueryOptions, useQuery } from "@tanstack/react-query";
+import {
+  MutationFunction,
+  useMutation,
+  useQueryClient,
+} from "@tanstack/react-query";
+import { ApiError, fetcher } from "../config";
 
 type DataT = {
   params: {
-    id: string;
+    id: number;
   };
 };
 
-type ResT = UserItem;
+type ResT = null;
 
-type QueryKey = ["addResToFav", DataT];
-
-const addResToFav: QueryFunction<ResT, QueryKey> = async ({ queryKey }) => {
+const addRestToFav: MutationFunction<ResT, DataT> = async (data) => {
   const { data: dataRes } = await fetcher.get<ResT>(
-    `/add-fav-res/${queryKey[1].params.id}/`,
+    `/add-fav-res/${data.params.id}/`
   );
   return dataRes;
 };
 
-export const useAddResToFav = (
-  data: DataT,
-  options: UseQueryOptions<ResT, ApiError, ResT, QueryKey> | undefined = undefined,
-) => {
-  return useQuery<ResT, ApiError, ResT, QueryKey>(["addResToFav", data], addResToFav, options);
+export const useAddRestToFav = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation<ResT, ApiError, DataT>(["addRestToFav"], addRestToFav, {
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ["favRestaurantList"],
+      });
+    },
+  });
 };

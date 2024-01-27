@@ -1,26 +1,37 @@
-import { ApiError, fetcher } from "../../config";
-import { QueryFunction, UseQueryOptions, useQuery } from "@tanstack/react-query";
+import {
+  MutationFunction,
+  useMutation,
+  useQueryClient,
+} from "@tanstack/react-query";
+import { ApiError, fetcher } from "../config";
 
 type DataT = {
   params: {
-    id: string;
+    id: number;
   };
 };
 
-type ResT = UserItem;
+type ResT = null;
 
-type QueryKey = ["deleteResFromFav", DataT];
-
-const deleteResFromFav: QueryFunction<ResT, QueryKey> = async ({ queryKey }) => {
+const deleteRestFromFav: MutationFunction<ResT, DataT> = async (data) => {
   const { data: dataRes } = await fetcher.get<ResT>(
-    `/delete-fav-res/${queryKey[1].params.id}/`,
+    `/delete-fav-res/${data.params.id}/`
   );
   return dataRes;
 };
 
-export const useDeleteResFromFav = (
-  data: DataT,
-  options: UseQueryOptions<ResT, ApiError, ResT, QueryKey> | undefined = undefined,
-) => {
-  return useQuery<ResT, ApiError, ResT, QueryKey>(["deleteResFromFav", data], deleteResFromFav, options);
+export const useDeleteRestFromFav = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation<ResT, ApiError, DataT>(
+    ["deleteRestFromFav"],
+    deleteRestFromFav,
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries({
+          queryKey: ["favRestaurantList"],
+        });
+      },
+    }
+  );
 };
