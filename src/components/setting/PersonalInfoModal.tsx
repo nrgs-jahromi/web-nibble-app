@@ -96,7 +96,10 @@ const PersonalInfoModal: FC<Props> = ({ isOpen, onClose }) => {
       console.log("No file selected");
     }
   };
-
+  const handleDeleteImage = () => {
+    setSelectedFile(undefined);
+    setPreviewUrl(undefined); // Set default image here
+  };
   const uploadButton = () => {
     return (
       <input
@@ -146,7 +149,7 @@ const PersonalInfoModal: FC<Props> = ({ isOpen, onClose }) => {
           <Box className="flex flex-row justify-between w-full gap-4">
             <img
               src={
-                selectedFile
+                previewUrl
                   ? previewUrl
                   : userInfo?.picture
                   ? userInfo.picture
@@ -165,14 +168,7 @@ const PersonalInfoModal: FC<Props> = ({ isOpen, onClose }) => {
               {uploadButton()}
               Upload
             </Button>
-            <Button
-              variant="outlined"
-              fullWidth
-              onClick={() => {
-                setPreviewUrl(undefined);
-                setSelectedFile(undefined);
-              }}
-            >
+            <Button variant="outlined" fullWidth onClick={handleDeleteImage}>
               Delete
             </Button>
           </Box>
