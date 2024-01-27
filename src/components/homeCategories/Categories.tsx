@@ -32,7 +32,7 @@ export const Categories = () => {
     },
     {
       icon: <MdOutlineAccountBalanceWallet />,
-      path: "high-class",
+      path: "highclass",
       title: " High class",
       description: "286+ options",
       color: theme.palette.warning.main,

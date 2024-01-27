@@ -13,7 +13,7 @@ import { useDineinResList } from "../../api/restaurant/getAllDineinRes";
 
 const CategoryPage = () => {
   const param = useParams();
-  const { data: restList, isLoading, isError } = useRestaurantsList();
+
   const randomNumber = generateRandomNumber();
   const filters = new Map([
     ["popular", { url: "popular", api: usePopularResList(), title: "Popular" }],
