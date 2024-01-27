@@ -244,7 +244,11 @@ export default function SideNavigation() {
             // onClick={handleDrawerClose}
             className="flex w-full flex-row gap-2 absolute bottom-9"
           >
-            <img src={profile} />
+            <img
+              src={userInfo?.picture ? userInfo.picture : image}
+              className="rounded-full h-12 w-12 "
+              alt="profileImg"
+            />
             <Box>
               <Typography variant="body1" sx={{ opacity: open ? 1 : 0 }}>
                 {userInfo?.full_name}
