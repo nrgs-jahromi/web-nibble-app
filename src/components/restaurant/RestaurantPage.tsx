@@ -181,7 +181,7 @@ const RestaurantPage = () => {
         src={restaurantInfo?.icon}
         height={"80px"}
         width={"80px"}
-        style={{ marginTop: "-50px" }}
+        style={{ marginTop: "-50px", minHeight: "80px", borderRadius: "12px" }}
       />
       <Box className="w-full flex flex-col justify-start">
         {" "}

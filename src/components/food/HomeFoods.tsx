@@ -38,8 +38,8 @@ export const HomeFoods = () => {
             <Food
               key={index}
               id={food.id}
-              // image={food.picture}
-              image={FoodImg}
+              image={food.picture}
+              // image={FoodImg}
               name={food.name}
               event={"free Delivery"}
               rate={food.rate}
