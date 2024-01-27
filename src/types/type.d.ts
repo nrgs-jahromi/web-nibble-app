@@ -44,7 +44,7 @@ type FoodT = {
 
 type OrderItemT = {
   id: number;
-  food: FoodT[];
+  food: FoodT;
   quantity: number;
 };
 

@@ -10,6 +10,7 @@ import { IoIosArrowForward } from "react-icons/io";
 import { AiOutlineUserAdd } from "react-icons/ai";
 import cardLogo from "../../assets/cardLogo.png";
 import { useOrderInformation } from "../../api/order/getOrderInfo";
+import { useRestaurantInformation } from "../../api/restaurant/getRestaurantInfo";
 
 interface ProfileDrawerProps {
   open: boolean;
@@ -27,7 +28,9 @@ export default function PreviousOrderDrawer({
     isLoading,
     isError,
   } = useOrderInformation({ params: { id: id } });
-
+  const { data: restaurantInfo } = useRestaurantInformation({
+    params: { id: orderInfo?.restaurant },
+  });
   // const orderInfo = {
   //   id: 3,
   //   order_items: [
@@ -111,7 +114,7 @@ export default function PreviousOrderDrawer({
               delivered to
             </Typography>
             <Typography fontSize={16} fontWeight={"bold"}>
-              {orderInfo?.delivery_address}
+              {restaurantInfo?.address}
             </Typography>
           </Grid>
           <IconBox
@@ -122,7 +125,7 @@ export default function PreviousOrderDrawer({
           />
         </Grid>
         <Typography variant="h6" fontWeight={"bold"}>
-          {orderInfo?.restaurant}
+          {restaurantInfo?.name}
         </Typography>
         {orderInfo?.order_items.map((item, index) => {
           return (
@@ -151,11 +154,11 @@ export default function PreviousOrderDrawer({
                   </Box>
 
                   <Typography align="left" fontSize={16} fontWeight={"bold"}>
-                    {item.food}
+                    {item.food.name}
                   </Typography>
                 </Grid>
                 <Typography variant="body1" fontWeight={400}>
-                  {item.quantity}
+                  {item.food.price}
                 </Typography>
               </Grid>
             </Grid>
@@ -175,7 +178,7 @@ export default function PreviousOrderDrawer({
               Delivery fee
             </Typography>
             <Typography variant="body1" fontWeight={400}>
-              5$
+              {restaurantInfo?.delivery_fee}$
               {
                 //resturant api
               }
@@ -199,7 +202,7 @@ export default function PreviousOrderDrawer({
             {/* <img width={20} height="50" src={cardLogo} /> */}
             <Typography variant="body1" fontWeight={400}>
               ●●●●
-              {orderInfo?.credit_card.split("-")[3]}
+              {/* {orderInfo?.credit_card.split("-")[3]} */}
             </Typography>
           </Grid>
         </Grid>

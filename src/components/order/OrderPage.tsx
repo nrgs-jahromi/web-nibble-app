@@ -13,10 +13,6 @@ const OrderPage = () => {
       </Typography>
       <Box className="flex flex-wrap max-w-full gap-5 ">
         <UpcomingOrdersCard />
-        <UpcomingOrdersCard />
-        <UpcomingOrdersCard />
-        <UpcomingOrdersCard />
-        <UpcomingOrdersCard />
       </Box>
       <Typography variant="h6" fontWeight="bold">
         Previous orders

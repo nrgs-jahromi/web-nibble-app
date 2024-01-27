@@ -75,7 +75,7 @@ const PreviousOrdersCard = () => {
       <PreviousOrderDrawer
         open={isOrderDrawerOpen}
         onClose={closeDrawer}
-        id={5}
+        id={6}
       />
     </Box>
   );
