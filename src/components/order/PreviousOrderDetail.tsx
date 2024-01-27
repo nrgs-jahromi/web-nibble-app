@@ -9,6 +9,7 @@ import { Grid, Rating } from "@mui/material";
 import { IoIosArrowForward } from "react-icons/io";
 import { AiOutlineUserAdd } from "react-icons/ai";
 import cardLogo from "../../assets/cardLogo.png";
+import { useOrderInformation } from "../../api/order/getOrderInfo";
 
 interface ProfileDrawerProps {
   open: boolean;
@@ -21,43 +22,49 @@ export default function PreviousOrderDrawer({
   onClose,
   id,
 }: ProfileDrawerProps) {
-  const data = {
-    id: 3,
-    order_items: [
-      {
-        id: 5,
-        food: {
-          id: 5,
-          name: "Sushi Delight",
-          category: "AS",
-          rate: "4.6",
-          prepare_time: 2,
-          price: "13.00",
-          picture: null,
-          restaurant: 4,
-        },
-        quantity: 1,
-        order: 3,
-      },
-    ],
-    credit_card: {
-      id: 2,
-      card_number: "1111-1111-1111-1111",
-      user: 11,
-    },
-    order_number: "ZPCQST23",
-    review: "2.6",
-    total_price: "0.00",
-    registration_time: "2024-01-26T08:05:50.329513Z",
-    delivery_time: "2024-01-26T08:05:46Z",
-    status: "UC",
-    time_prepare_foods: 0,
-    user: 5,
-    restaurant: 4,
-    delivery_address: 3,
-  };
+  const {
+    data: orderInfo,
+    isLoading,
+    isError,
+  } = useOrderInformation({ params: { id: id } });
+
+  // const orderInfo = {
+  //   id: 3,
+  //   order_items: [
+  //     {
+  //       id: 5,
+  //       food: {
+  //         id: 5,
+  //         name: "Sushi Delight",
+  //         category: "AS",
+  //         rate: "4.6",
+  //         prepare_time: 2,
+  //         price: "13.00",
+  //         picture: null,
+  //         restaurant: 4,
+  //       },
+  //       quantity: 1,
+  //       order: 3,
+  //     },
+  //   ],
+  //   credit_card: {
+  //     id: 2,
+  //     card_number: "1111-1111-1111-1111",
+  //     user: 11,
+  //   },
+  //   order_number: "ZPCQST23",
+  //   review: "2.6",
+  //   total_price: "0.00",
+  //   registration_time: "2024-01-26T08:05:50.329513Z",
+  //   delivery_time: "2024-01-26T08:05:46Z",
+  //   status: "UC",
+  //   time_prepare_foods: 0,
+  //   user: 5,
+  //   restaurant: 4,
+  //   delivery_address: 3,
+  // };
   const [ratingValue, setRatingValue] = useState<number | null>(
-    parseFloat(data.review)
+    parseFloat(orderInfo?.review)
   );
 
   return (
@@ -104,7 +111,7 @@ export default function PreviousOrderDrawer({
               delivered to
             </Typography>
             <Typography fontSize={16} fontWeight={"bold"}>
-              300 Post Street San Francisco, CA{" "}
+              {orderInfo?.delivery_address}
             </Typography>
           </Grid>
           <IconBox
@@ -115,12 +122,9 @@ export default function PreviousOrderDrawer({
           />
         </Grid>
         <Typography variant="h6" fontWeight={"bold"}>
-          Pizza Hut
-          {
-            //resturant api
-          }
+          {orderInfo?.restaurant}
         </Typography>
-        {data.order_items.map((item, index) => {
+        {orderInfo?.order_items.map((item, index) => {
           return (
             <Grid key={index} className="flex flex-row justify-between">
               <Grid
@@ -147,11 +151,11 @@ export default function PreviousOrderDrawer({
                   </Box>
 
                   <Typography align="left" fontSize={16} fontWeight={"bold"}>
-                    {item.food.name}
+                    {item.food}
                   </Typography>
                 </Grid>
                 <Typography variant="body1" fontWeight={400}>
-                  {item.food.price}
+                  {item.quantity}
                 </Typography>
               </Grid>
             </Grid>
@@ -163,7 +167,7 @@ export default function PreviousOrderDrawer({
               Subtotal
             </Typography>
             <Typography variant="body1" fontWeight={400}>
-              {data.total_price}
+              {orderInfo?.total_price}
             </Typography>
           </Grid>
           <Grid container justifyContent="space-between">
@@ -171,7 +175,7 @@ export default function PreviousOrderDrawer({
               Delivery fee
             </Typography>
             <Typography variant="body1" fontWeight={400}>
-              50$
+              5$
               {
                 //resturant api
               }
@@ -182,7 +186,7 @@ export default function PreviousOrderDrawer({
               Total
             </Typography>
             <Typography variant="body1" fontWeight={400}>
-              50$
+              {orderInfo?.total_price}$
               {
                 // delivery fee + subtotal
               }
@@ -195,7 +199,7 @@ export default function PreviousOrderDrawer({
             {/* <img width={20} height="50" src={cardLogo} /> */}
             <Typography variant="body1" fontWeight={400}>
               ●●●●
-              {data.credit_card.card_number.split("-")[3]}
+              {orderInfo?.credit_card.split("-")[3]}
             </Typography>
           </Grid>
         </Grid>
@@ -206,6 +210,7 @@ export default function PreviousOrderDrawer({
           <Grid container>
             <Rating
               name="simple-controlled"
+              // defaultValue={orderInfo.}
               value={ratingValue}
               onChange={(event, newValue) => {
                 setRatingValue(newValue);

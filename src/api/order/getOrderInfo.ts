@@ -7,7 +7,7 @@ import {
 
 type DataT = {
   params: {
-    id: string;
+    id: number;
   };
 };
 

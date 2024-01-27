@@ -72,7 +72,11 @@ const PreviousOrdersCard = () => {
           Get help
         </Button>
       </Box>
-      <PreviousOrderDrawer open={isOrderDrawerOpen} onClose={closeDrawer} />
+      <PreviousOrderDrawer
+        open={isOrderDrawerOpen}
+        onClose={closeDrawer}
+        id={5}
+      />
     </Box>
   );
 };
