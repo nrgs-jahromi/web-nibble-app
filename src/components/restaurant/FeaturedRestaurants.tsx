@@ -24,9 +24,9 @@ export const FeaturedRestaurants = () => {
         maxWidth={"100%"}
         overflow={"auto"}
         display={"flex"}
-        justifyContent={"space-between"}
+        // justifyContent={"space-between"}
         alignContent={"flex-start"}
-        gap={1}
+        gap={3}
         className="flex-nowrap xl:flex-wrap"
       >
         {restList?.slice(0, 6).map((rest) => (
