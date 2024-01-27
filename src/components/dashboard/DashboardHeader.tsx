@@ -54,12 +54,14 @@ const DashboardHeader = () => {
           ))}
         </Box>
       ) : (
-        <IconBox
-          icon={<IoMenu />}
-          color={theme.palette.primary.main}
-          size={48}
-          borderRadius={"10px"}
-        />
+        <Box className="flex flex-row justify-between w-full">
+          <IconBox
+            icon={<IoMenu />}
+            color={theme.palette.primary.main}
+            size={48}
+            borderRadius={"10px"}
+          />
+        </Box>
       )}
       <Box className="flex flex-row gap-4  lg:w-1/2">
         <Box
