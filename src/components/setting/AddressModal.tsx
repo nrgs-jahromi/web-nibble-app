@@ -9,7 +9,7 @@ import {
   IconButton,
   TextField,
 } from "@mui/material";
-import { FC } from "react";
+import { FC, useEffect, useState } from "react";
 import { IoClose } from "react-icons/io5";
 import theme from "../../theme";
 import { CiMail, CiUser } from "react-icons/ci";
@@ -24,12 +24,34 @@ import {
 } from "react-icons/md";
 import { GoHome } from "react-icons/go";
 import { IoMdAdd } from "react-icons/io";
+import { useUserAddressList } from "../../api/profile/getAllUserAddress";
 type Props = {
   isOpen: boolean;
   onClose: () => void;
 };
 
 const AddressModal: FC<Props> = ({ isOpen, onClose }) => {
+  const { data: userAllAddress } = useUserAddressList();
+  const [selectedCategory, setSelectedCategory] = useState("Home");
+  // const [openAddAddressModal, setOpenAddAddressModal] = useState(false);
+  const selectCategoryHandler = (name: string) => {
+    setSelectedCategory(name);
+  };
+
+  const selectedCategoryAddresses = userAllAddress?.filter(
+    (address) => address.category === selectedCategory.charAt(0)
+  );
+  const workAddresses = userAllAddress?.filter(
+    (address) => address.category === "W"
+  );
+  const homeAddresses = userAllAddress?.filter(
+    (address) => address.category === "H"
+  );
+
+  useEffect(() => {
+    selectedCategoryAddresses;
+  }, [selectedCategory]);
+
   return (
     <Dialog
       maxWidth="xs"
@@ -57,7 +79,7 @@ const AddressModal: FC<Props> = ({ isOpen, onClose }) => {
         id="alert-dialog-title"
         fontWeight="bold"
       >
-        Personal information
+        Saved addresses
       </DialogTitle>
 
       <DialogContent className="flex flex-col  gap-10 justify-start sm:w-96 w-72">
@@ -65,79 +87,71 @@ const AddressModal: FC<Props> = ({ isOpen, onClose }) => {
           <Box className="w-full flex gap-4">
             <Button
               fullWidth
-              variant="contained"
+              variant={selectedCategory === "Home" ? "contained" : "text"}
               color="primary"
-              sx={{ color: "white", borderRadius: "8px" }}
-              // onClick={handleOpenDrawer}
+              sx={{
+                borderRadius: "8px",
+                bgcolor:
+                  selectedCategory === "Work"
+                    ? theme.palette.primary.light
+                    : "",
+              }}
+              onClick={() => selectCategoryHandler("Home")}
             >
-              Home (2)
+              Home ({homeAddresses?.length})
             </Button>
             <Button
               fullWidth
-              variant="text"
+              variant={selectedCategory === "Work" ? "contained" : "text"}
               color="primary"
               sx={{
-                bgcolor: theme.palette.primary.light,
+                bgcolor:
+                  selectedCategory === "Home"
+                    ? theme.palette.primary.light
+                    : "",
                 borderRadius: "8px",
               }}
+              onClick={() => selectCategoryHandler("Work")}
             >
-              Work (3)
+              Work ({workAddresses?.length})
             </Button>
           </Box>
-          <Box className="flex w-full gap-4">
-            <IconBox
-              icon={<GoHome color={theme.palette.primary.main} />}
-              color={theme.palette.primary.light}
-              size={48}
-              borderRadius="12px"
-            />
-            <TextField
-              fullWidth
-              variant="standard"
-              defaultValue="ejnvjnfnlsfdm lma ml l "
-              label="ADDRESS"
-              placeholder="ADDRESS"
-              InputLabelProps={{
-                shrink: true,
-              }}
-            />
-          </Box>
-          <Box className="flex w-full gap-4">
-            <IconBox
-              icon={<GoHome color={theme.palette.secondary.main} />}
-              color={theme.palette.secondary.light}
-              size={48}
-              borderRadius="12px"
-            />
-            <TextField
-              fullWidth
-              defaultValue="775 Cletus Estates Suite 423"
-              variant="standard"
-              label="ADDRESS"
-              placeholder="ADDRESS"
-              InputLabelProps={{
-                shrink: true,
-              }}
-            />
-          </Box>
-          <Box className="flex w-full gap-4">
-            <IconBox
-              icon={<GoHome color={theme.palette.warning.main} />}
-              color={theme.palette.warning.light}
-              size={48}
-              borderRadius="12px"
-            />
-            <TextField
-              fullWidth
-              variant="standard"
-              defaultValue="182 Park Row Street, Suite 8"
-              label="ADDRESS"
-              placeholder="ADDRESS"
-              InputLabelProps={{
-                shrink: true,
-              }}
-            />
-          </Box>
+          {selectedCategoryAddresses?.map((address, index) => (
+            <Box className="flex w-full gap-4">
+              <IconBox
+                icon={
+                  <GoHome
+                    color={
+                      index % 3 === 0
+                        ? theme.palette.primary.main
+                        : index % 3 === 1
+                        ? theme.palette.secondary.main
+                        : theme.palette.warning.main
+                    }
+                  />
+                }
+                color={
+                  index % 3 === 0
+                    ? theme.palette.primary.light
+                    : index % 3 === 1
+                    ? theme.palette.secondary.light
+                    : theme.palette.warning.light
+                }
+                size={48}
+                borderRadius="12px"
+              />
+              <TextField
+                fullWidth
+                variant="standard"
+                defaultValue={address.street + address.city + address.state}
+                label="ADDRESS"
+                placeholder="ADDRESS"
+                InputLabelProps={{
+                  shrink: true,
+                }}
+              />
+            </Box>
+          ))}
         </Box>
       </DialogContent>
       <DialogActions sx={{ padding: "20px 24px" }}>
@@ -161,12 +175,6 @@ const AddressModal: FC<Props> = ({ isOpen, onClose }) => {
           >
             Save changes
           </Button>
-          {/* <Button
-            variant="text"
-            color="primary"
-            endIcon={<IoMdAdd />}
-            sx={{ bgcolor: theme.palette.primary.light, width: "25%" }}
-          ></Button> */}
         </Box>
       </DialogActions>
     </Dialog>
