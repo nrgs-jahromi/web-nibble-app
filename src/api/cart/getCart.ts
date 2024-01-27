@@ -5,7 +5,7 @@ import {
   useQuery,
 } from "@tanstack/react-query";
 
-type ResT = CartT[];
+type ResT = CartT;
 type QueryKey = ["getCart"];
 
 const getCart: QueryFunction<ResT, QueryKey> = async (key) => {

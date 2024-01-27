@@ -8,6 +8,8 @@ import IconBox from "../baseComponents/IconBox";
 import { IoHeart, IoHeartOutline } from "react-icons/io5";
 import { useAddFoodToFav } from "../../api/food/addFavFood";
 import { useDeleteFoodFromFav } from "../../api/food/deleteFavFood";
+import { IoMdAdd } from "react-icons/io";
+import { useAddFoodToCart } from "../../api/cart/addToCart";
 
 type Props = {
   id?: number;
@@ -19,6 +21,7 @@ type Props = {
   minDelivery: number;
   maxDelivery: number;
   image: string;
+  hasAddIcon?: boolean;
 };
 
 export const Food: FC<Props> = ({
@@ -31,6 +34,7 @@ export const Food: FC<Props> = ({
   minDelivery,
   maxDelivery,
   image,
+  hasAddIcon,
 }) => {
   const isMdScreen = useMediaQuery(theme.breakpoints.up("md"));
   const islgScreen = useMediaQuery(theme.breakpoints.up("lg"));
@@ -40,7 +44,7 @@ export const Food: FC<Props> = ({
   const { isLoading: isAddingToFav, mutate: addToFav } = useAddFoodToFav();
   const { isLoading: isDeletingFromFav, mutate: deleteFromFav } =
     useDeleteFoodFromFav();
-
+  const { isLoading: isAddingToCart, mutate: addToCart } = useAddFoodToCart();
   const onFavoriteClickHandler = () => {
     setFavorite(!favorite);
     // Toggle favorite status and make API call accordingly
@@ -50,6 +54,12 @@ export const Food: FC<Props> = ({
       deleteFromFav({ params: { id: id } });
     }
   };
+  // const { mutate: logout, isSuccess: logoutSuccessfully } = useUserLogout();
+
+  const addtocart = (id: number) => {
+    addToCart({ params: { food_id: id } });
+  };
+
   return (
     <Box
       display={"flex"}
@@ -121,6 +131,16 @@ export const Food: FC<Props> = ({
               {minDelivery} - {maxDelivery} min
             </span>
           </Box>
+          {hasAddIcon && (
+            <Box
+              display={"flex"}
+              alignItems={"center"}
+              gap={0.5}
+              onClick={() => addtocart(id)}
+            >
+              <IoMdAdd color="rgb(156, 163, 175)" />
+            </Box>
+          )}
         </Box>
       </Box>
     </Box>

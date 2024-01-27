@@ -35,6 +35,7 @@ const RestaurantPage = () => {
   const foodsData = [
     {
       image: FoodImg,
+      id: 5,
       name: "salad malad",
       event: "Free Delivery",
       rate: 4.8,
@@ -45,6 +46,7 @@ const RestaurantPage = () => {
     },
     {
       image: FoodImg,
+      id: 6,
       name: "salad malad",
       event: "Free Delivery",
       rate: 4.8,
@@ -55,6 +57,7 @@ const RestaurantPage = () => {
     },
     {
       image: FoodImg,
+      id: 7,
       name: "salad malad",
       event: "Free Delivery",
       rate: 4.8,
@@ -65,6 +68,7 @@ const RestaurantPage = () => {
     },
     {
       image: FoodImg,
+      id: 8,
       name: "salad malad",
       event: "Free Delivery",
       rate: 4.8,
@@ -75,6 +79,7 @@ const RestaurantPage = () => {
     },
     {
       image: FoodImg,
+      id: 9,
       name: "salad malad",
       event: "Free Delivery",
       rate: 4.8,
@@ -85,6 +90,7 @@ const RestaurantPage = () => {
     },
     {
       image: FoodImg,
+      id: 10,
       name: "salad malad",
       event: "Free Delivery",
       rate: 4.8,
@@ -95,6 +101,7 @@ const RestaurantPage = () => {
     },
     {
       image: FoodImg,
+      id: 11,
       name: "salad malad",
       event: "Free Delivery",
       rate: 3.8,
@@ -105,6 +112,7 @@ const RestaurantPage = () => {
     },
     {
       image: FoodImg,
+      id: 12,
       name: "salad malad",
       event: "Free Delivery",
       rate: 1.8,
@@ -282,7 +290,7 @@ const RestaurantPage = () => {
           {filteredFoods.map((food, index) => (
             <Food
               key={index}
-              // id={food.id}
+              id={food.id}
               image={food.image}
               name={food.name}
               event={food.event}
@@ -291,6 +299,7 @@ const RestaurantPage = () => {
               type={food.type}
               minDelivery={food.minDelivery}
               maxDelivery={food.maxDelivery}
+              hasAddIcon={true}
             />
           ))}
         </Box>

@@ -83,7 +83,7 @@ type AddressT = {
 type CartItemT = {
   quantity: number;
   price: number;
-  food: FoodT[];
+  food: FoodT;
   total_item_price: number;
 };
 

@@ -1,4 +1,3 @@
-import { date } from "yup";
 import { ApiError, fetcher } from "../config";
 import {
   QueryFunction,
@@ -8,24 +7,30 @@ import {
 
 type DataT = {
   params: {
-    id: number;
+    id: string;
   };
 };
 
 type ResT = FoodT[];
-type QueryKey = ["listResFood", DataT];
 
-const listResFood: QueryFunction<ResT, QueryKey> = async ({ queryKey }) => {
+type QueryKey = ["getResFoods", DataT];
+
+const getResFoods: QueryFunction<ResT, QueryKey> = async ({ queryKey }) => {
   const { data: dataRes } = await fetcher.get<ResT>(
-    `/get-res-food/${queryKey[1].params.id}`
+    `/get-res-food/${queryKey[1].params.id}/`
   );
   return dataRes;
 };
 
-export const useResFoodList = (
-  dateParam: string,
-  options?: UseQueryOptions<ResT, ApiError, ResT, QueryKey>
+export const useResFoods = (
+  data: DataT,
+  options:
+    | UseQueryOptions<ResT, ApiError, ResT, QueryKey>
+    | undefined = undefined
 ) => {
-  const data: DataT = { params: { id: dateParam } };
-  return useQuery(["listResFood", data], listResFood, options);
+  return useQuery<ResT, ApiError, ResT, QueryKey>(
+    ["getResFoods", data],
+    getResFoods,
+    options
+  );
 };

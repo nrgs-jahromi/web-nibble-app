@@ -1,18 +1,7 @@
 import { useEffect, useState } from "react";
 import Box from "@mui/material/Box";
 import Drawer from "@mui/material/Drawer";
-import ListItemButton from "@mui/material/ListItemButton";
-import ListItemIcon from "@mui/material/ListItemIcon";
-import ListItemText from "@mui/material/ListItemText";
-import InputLabel from "@mui/material/InputLabel";
-import MenuItem from "@mui/material/MenuItem";
-import FormControl from "@mui/material/FormControl";
-import Select, { SelectChangeEvent } from "@mui/material/Select";
-
-import { useNavigate } from "react-router";
-import { Logout } from "@mui/icons-material";
 import { Button, IconButton, List, ListItem, Typography } from "@mui/material";
-import { queryClient } from "../../../main";
 import theme from "../../../theme";
 import IconBox from "../../baseComponents/IconBox";
 import { IoClose } from "react-icons/io5";
@@ -25,6 +14,7 @@ import { BiSolidDiscount } from "react-icons/bi";
 import PersonalInfoModal from "../../setting/PersonalInfoModal";
 import PromoCodeModal from "./PromoCodeModal";
 import DeliveryAddressModal from "./DeliveryAddressModal";
+import { useGetCart } from "../../../api/cart/getCart";
 
 interface ProfileDrawerProps {
   open: boolean;
@@ -36,32 +26,35 @@ export default function CartDrawer({ open, onClose }: ProfileDrawerProps) {
   const [isDeliveryAddressModalOpen, setIsDeliveryAddressModalOpen] =
     useState(false);
 
+  const { data: cartData, isSuccess: getCartSuccessfully } = useGetCart();
   const closePromoCodeModal = () => {
     setIsPromoCodeModalOpen(false);
   };
   const closeDeliveryAddressModal = () => {
     setIsDeliveryAddressModalOpen(false);
   };
-  const cartItem = [
-    {
-      image: FoodImg,
-      name: "salad malad",
-      count: 2,
-      price: 10,
-    },
-    {
-      image: FoodImg,
-      name: "salad malad",
-      price: 10,
-      count: 2,
-    },
-    {
-      image: FoodImg,
-      name: "salad malad",
-      count: 2,
-      price: 10,
-    },
-  ];
+  const cartItem = cartData?.items;
+
+  // const cartItem = [
+  //   {
+  //     image: FoodImg,
+  //     name: "salad malad",
+  //     count: 2,
+  //     price: 10,
+  //   },
+  //   {
+  //     image: FoodImg,
+  //     name: "salad malad",
+  //     price: 10,
+  //     count: 2,
+  //   },
+  //   {
+  //     image: FoodImg,
+  //     name: "salad malad",
+  //     count: 2,
+  //     price: 10,
+  //   },
+  // ];
   return (
     <Box>
       <Drawer
@@ -100,7 +93,7 @@ export default function CartDrawer({ open, onClose }: ProfileDrawerProps) {
             <Typography variant="h6" fontWeight={"bold"}>
               My cart{" "}
               <span style={{ fontWeight: "normal", fontSize: "15px" }}>
-                (2 items)
+                ({cartItem?.length})
               </span>
             </Typography>
             <Button
@@ -131,8 +124,8 @@ export default function CartDrawer({ open, onClose }: ProfileDrawerProps) {
                 {cartItem.map((item) => (
                   <CartItem
                     image={FoodImg}
-                    name={item.name}
-                    count={item.count}
+                    name={item.food.name}
+                    count={item.quantity}
                     price={item.price}
                   />
                 ))}
@@ -163,7 +156,7 @@ export default function CartDrawer({ open, onClose }: ProfileDrawerProps) {
                     Delivery
                   </Typography>
                   <Typography variant="caption" fontSize={10}>
-                    $0
+                    ${cartData?.total_cart_price}
                   </Typography>
                 </Box>
               </Box>
@@ -221,7 +214,7 @@ export default function CartDrawer({ open, onClose }: ProfileDrawerProps) {
             <Typography variant="h6">
               Checkout
               <span style={{ fontWeight: "normal", fontSize: "15px" }}>
-                ($53,00)
+                (${cartData?.total_price_after_discount})
               </span>
             </Typography>
           </Button>
